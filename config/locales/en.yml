@@ -34,6 +34,8 @@ en:
     internal: "Something went wrong. Please try again."
     encryption:
       empty_body: "Request body cannot be empty"
+      not_an_object: "Request body must be a JSON object"
+      too_large: "Request body is larger than %{limit} bytes"
       parameter_missing: "Missing parameter or its value: original_string"
       unknown_cipher: "Unknown cipher: %{name}"
     translation:

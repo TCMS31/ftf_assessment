@@ -35,13 +35,14 @@ RSpec.describe 'POST /api/v1/encryptions/rot13' do
     post_rot13('{not json')
 
     expect(response).to have_http_status(:unprocessable_entity)
-    expect(response.parsed_body['error']).to eq('Request body cannot be empty')
+    expect(response.parsed_body).to eq('error' => 'Request body must be a JSON object')
   end
 
   it 'rejects a JSON array body' do
     post_rot13('["a","b"]')
 
     expect(response).to have_http_status(:unprocessable_entity)
+    expect(response.parsed_body).to eq('error' => 'Request body must be a JSON object')
   end
 
   # Regression: a non-string value used to reach Integer#tr, and the resulting
@@ -72,10 +73,18 @@ RSpec.describe 'POST /api/v1/encryptions/rot13' do
 
   it 'caps how much of the request body it will read' do
     limit = Api::V1::EncryptionsController::MAX_BODY_BYTES
-    post_rot13({ original_string: 'a' * (limit + 1_000) }.to_json)
+    expect { post_rot13({ original_string: 'a' * (limit + 1_000) }.to_json) }
+      .not_to change(StringEncryption, :count)
 
-    # The truncated read yields invalid JSON, which is refused rather than
-    # buffering an unbounded body into memory.
-    expect(response).to have_http_status(:unprocessable_entity)
+    expect(response).to have_http_status(:payload_too_large)
+    expect(response.parsed_body).to eq('error' => "Request body is larger than #{limit} bytes")
+  end
+
+  it 'accepts a body exactly at the limit' do
+    limit = Api::V1::EncryptionsController::MAX_BODY_BYTES
+    padding = { original_string: '' }.to_json.bytesize
+    post_rot13({ original_string: 'a' * (limit - padding) }.to_json)
+
+    expect(response).to have_http_status(:ok)
   end
 end

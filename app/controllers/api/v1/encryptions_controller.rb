@@ -15,8 +15,12 @@ module Api
       private
 
       def encrypt_with(cipher_name)
-        body = parsed_body
-        return render_error(I18n.t('errors.encryption.empty_body'), :unprocessable_entity) if body.nil?
+        raw = request.body.read(MAX_BODY_BYTES + 1)
+        return render_error(I18n.t('errors.encryption.empty_body'), :unprocessable_entity) if raw.blank?
+        return render_too_large if raw.bytesize > MAX_BODY_BYTES
+
+        body = json_object(raw)
+        return render_error(I18n.t('errors.encryption.not_an_object'), :unprocessable_entity) if body.nil?
 
         render_result(
           Encryptions::EncryptStringService.call(original_string: body['original_string'],
@@ -24,17 +28,20 @@ module Api
         )
       end
 
-      # Returns the decoded JSON object, or nil when the body is absent,
-      # malformed, or not a JSON object. Returning nil rather than raising keeps
-      # a hostile body out of the generic 500 handler.
-      def parsed_body
-        raw = request.body.read(MAX_BODY_BYTES)
-        return nil if raw.blank?
-
+      # Returns the decoded JSON object, or nil when the body is malformed or
+      # not a JSON object. Returning nil rather than raising keeps a hostile
+      # body out of the generic 500 handler.
+      def json_object(raw)
         parsed = JSON.parse(raw)
         parsed.is_a?(Hash) ? parsed : nil
       rescue JSON::ParserError
         nil
+      end
+
+      # Reading one byte past the limit is how an oversized body is told apart
+      # from one that is exactly at it, without buffering the rest.
+      def render_too_large
+        render_error(I18n.t('errors.encryption.too_large', limit: MAX_BODY_BYTES), :payload_too_large)
       end
 
       def render_error(message, status)
