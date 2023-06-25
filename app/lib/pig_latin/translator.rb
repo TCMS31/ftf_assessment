@@ -12,8 +12,11 @@ module PigLatin
   #     "yellow" -> "ellowyay").
   #   * Leading and trailing non-letters stay where they are, so punctuation and
   #     quoting survive the round trip ("know\"" -> "owknay\"", not "ow\"knay").
-  #   * A word with no letters at all (a bare number, "--", an em dash) is returned
-  #     untouched rather than given a nonsense suffix.
+  #   * A token with no letters at all (a bare number, "--", an em dash) is
+  #     returned untouched rather than given a nonsense suffix.
+  #   * Hyphens and other inner punctuation separate words, so both halves of
+  #     "well-known" are translated ("ellway-ownknay"). An apostrophe between
+  #     letters stays inside the word ("don't" -> "on'tday").
   #   * Capitalisation of the original first letter is carried over to the result.
   #
   # Everything here is a module function on frozen input: no state, no I/O.
@@ -22,8 +25,9 @@ module PigLatin
     VOWEL_SUFFIX = 'way'
     CONSONANT_SUFFIX = 'ay'
 
-    # Splits a token into (leading non-letters, letters, trailing non-letters).
-    WORD_PARTS = /\A([^[:alpha:]]*)([[:alpha:]]*)(.*)\z/m
+    # A run of letters, optionally joined by apostrophes. Everything between
+    # two matches is punctuation and is copied through unchanged.
+    WORD = /[[:alpha:]]+(?:['’][[:alpha:]]+)*/
 
     module_function
 
@@ -45,13 +49,10 @@ module PigLatin
     def translate_word(token)
       return '' if token.nil?
 
-      prefix, letters, suffix = token.to_s.match(WORD_PARTS).captures
-      return token.to_s if letters.empty?
-
-      "#{prefix}#{recase(letters, pig(letters))}#{suffix}"
+      token.to_s.gsub(WORD) { |word| recase(word, pig(word)) }
     end
 
-    # @param letters [String] a run of letters only
+    # @param letters [String] a run of letters, possibly with inner apostrophes
     # @return [String] the Pig Latin form, all lower case
     def pig(letters)
       lower = letters.downcase

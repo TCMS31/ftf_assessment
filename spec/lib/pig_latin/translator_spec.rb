@@ -53,6 +53,22 @@ RSpec.describe PigLatin::Translator do
       expect(described_class.translate_word('')).to eq('')
     end
 
+    # Regression: only the letters before the first hyphen were translated, so
+    # "well-known" came out as "ellway-known".
+    it 'translates every word in a hyphenated token' do
+      expect(described_class.translate_word('well-known')).to eq('ellway-ownknay')
+      expect(described_class.translate_word('Franco-Prussian')).to eq('Ancofray-Ussianpray')
+    end
+
+    it 'keeps an apostrophe inside its word' do
+      expect(described_class.translate_word("don't")).to eq("on'tday")
+      expect(described_class.translate_word("Courbet's")).to eq("Ourbet'scay")
+    end
+
+    it 'translates letters on both sides of inner punctuation' do
+      expect(described_class.translate_word('and/or')).to eq('andway/orway')
+    end
+
     it 'handles a word with no vowels' do
       expect(described_class.translate_word('nth')).to eq('nthay')
     end
