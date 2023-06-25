@@ -20,28 +20,28 @@ RSpec.describe 'POST /api/v1/encryptions/rot13' do
   it 'rejects a missing original_string' do
     post_rot13({}.to_json)
 
-    expect(response).to have_http_status(:unprocessable_entity)
+    expect(response).to have_http_status(:unprocessable_content)
     expect(response.parsed_body['error']).to eq('Missing parameter or its value: original_string')
   end
 
   it 'rejects an empty body' do
     post_rot13(nil)
 
-    expect(response).to have_http_status(:unprocessable_entity)
+    expect(response).to have_http_status(:unprocessable_content)
     expect(response.parsed_body).to eq('error' => 'Request body cannot be empty')
   end
 
   it 'rejects a malformed JSON body' do
     post_rot13('{not json')
 
-    expect(response).to have_http_status(:unprocessable_entity)
+    expect(response).to have_http_status(:unprocessable_content)
     expect(response.parsed_body).to eq('error' => 'Request body must be a JSON object')
   end
 
   it 'rejects a JSON array body' do
     post_rot13('["a","b"]')
 
-    expect(response).to have_http_status(:unprocessable_entity)
+    expect(response).to have_http_status(:unprocessable_content)
     expect(response.parsed_body).to eq('error' => 'Request body must be a JSON object')
   end
 
@@ -51,7 +51,7 @@ RSpec.describe 'POST /api/v1/encryptions/rot13' do
   it 'rejects a non-string original_string without leaking internals' do
     expect { post_rot13({ original_string: 12_345 }.to_json) }.not_to change(StringEncryption, :count)
 
-    expect(response).to have_http_status(:unprocessable_entity)
+    expect(response).to have_http_status(:unprocessable_content)
     expect(response.parsed_body['error']).to eq('Missing parameter or its value: original_string')
     expect(response.body).not_to include('NoMethodError')
   end
@@ -76,7 +76,7 @@ RSpec.describe 'POST /api/v1/encryptions/rot13' do
     expect { post_rot13({ original_string: 'a' * (limit + 1_000) }.to_json) }
       .not_to change(StringEncryption, :count)
 
-    expect(response).to have_http_status(:payload_too_large)
+    expect(response).to have_http_status(:content_too_large)
     expect(response.parsed_body).to eq('error' => "Request body is larger than #{limit} bytes")
   end
 

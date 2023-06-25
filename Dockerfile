@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
 # ---------- Stage 1: build gems and precompile assets ----------
-FROM ruby:3.1.3-slim AS builder
+FROM ruby:3.4.12-slim AS builder
 
 ENV BUNDLE_DEPLOYMENT=1 \
     BUNDLE_PATH=/usr/local/bundle \
@@ -9,7 +9,7 @@ ENV BUNDLE_DEPLOYMENT=1 \
     RAILS_ENV=production
 
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential git libpq-dev pkg-config && \
+    apt-get install --no-install-recommends -y build-essential git libpq-dev libyaml-dev pkg-config && \
     rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
@@ -27,7 +27,7 @@ RUN SECRET_KEY_BASE=precompile_placeholder bundle exec rails assets:precompile &
     bundle exec bootsnap precompile --gemfile app/ lib/
 
 # ---------- Stage 2: runtime ----------
-FROM ruby:3.1.3-slim AS runtime
+FROM ruby:3.4.12-slim AS runtime
 
 ENV BUNDLE_DEPLOYMENT=1 \
     BUNDLE_PATH=/usr/local/bundle \

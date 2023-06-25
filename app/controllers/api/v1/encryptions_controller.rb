@@ -16,11 +16,11 @@ module Api
 
       def encrypt_with(cipher_name)
         raw = request.body.read(MAX_BODY_BYTES + 1)
-        return render_error(I18n.t('errors.encryption.empty_body'), :unprocessable_entity) if raw.blank?
+        return render_error(I18n.t('errors.encryption.empty_body'), :unprocessable_content) if raw.blank?
         return render_too_large if raw.bytesize > MAX_BODY_BYTES
 
         body = json_object(raw)
-        return render_error(I18n.t('errors.encryption.not_an_object'), :unprocessable_entity) if body.nil?
+        return render_error(I18n.t('errors.encryption.not_an_object'), :unprocessable_content) if body.nil?
 
         render_result(
           Encryptions::EncryptStringService.call(original_string: body['original_string'],
@@ -41,7 +41,7 @@ module Api
       # Reading one byte past the limit is how an oversized body is told apart
       # from one that is exactly at it, without buffering the rest.
       def render_too_large
-        render_error(I18n.t('errors.encryption.too_large', limit: MAX_BODY_BYTES), :payload_too_large)
+        render_error(I18n.t('errors.encryption.too_large', limit: MAX_BODY_BYTES), :content_too_large)
       end
 
       def render_error(message, status)

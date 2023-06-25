@@ -1,32 +1,31 @@
 # frozen_string_literal: true
 
 source 'https://rubygems.org'
-git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '3.1.3'
+ruby file: '.ruby-version'
 
 gem 'bootsnap', require: false
-gem 'importmap-rails'
+gem 'importmap-rails', '~> 2.2'
 # Used by WikipediaClient to extract article paragraphs. It arrives transitively
 # via rails-html-sanitizer, but the app requires it directly, so declare it.
-gem 'nokogiri', '~> 1.15'
-gem 'pg', '~> 1.1'
-gem 'puma', '~> 5.0'
-gem 'rails', '~> 7.0.5'
-gem 'sprockets-rails'
-gem 'stimulus-rails'
-gem 'turbo-rails'
-gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
+gem 'nokogiri', '~> 1.19'
+gem 'pg', '~> 1.7'
+gem 'puma', '~> 8.0'
+gem 'rails', '~> 8.1.4'
+gem 'sprockets-rails', '~> 3.5'
+gem 'stimulus-rails', '~> 1.3'
+gem 'turbo-rails', '~> 2.0'
+gem 'tzinfo-data', platforms: %i[windows jruby]
 
 group :development, :test do
-  gem 'debug', platforms: %i[mri mingw x64_mingw]
+  gem 'debug', platforms: %i[mri windows], require: 'debug/prelude'
   gem 'rubocop', require: false
 end
 
 group :test do
-  gem 'rspec-rails'
-  gem 'shoulda-matchers'
+  gem 'rspec-rails', '~> 8.1'
+  gem 'shoulda-matchers', '~> 8.0'
   # Blocks real HTTP from the suite and lets the Wikipedia client be tested
   # against fixed responses.
-  gem 'webmock'
+  gem 'webmock', '~> 3.34'
 end

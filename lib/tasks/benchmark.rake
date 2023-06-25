@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'benchmark'
-
 namespace :benchmark do
   desc 'Compare ArithmeticOperations against the original repeated-addition implementation'
   task :arithmetic do
@@ -38,12 +36,18 @@ namespace :benchmark do
       ['power(2, 64)', ->(impl) { impl.power(2, 64) }]
     ]
 
-    puts format('%-28s %14s %14s %10s', 'case', 'repeated-add', 'shift-and-add', 'speedup')
+    elapsed = lambda do |&work|
+      started = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+      work.call
+      Process.clock_gettime(Process::CLOCK_MONOTONIC) - started
+    end
+
+    puts 'case                           repeated-add  shift-and-add    speedup'
     puts '-' * 70
 
     cases.each do |label, block|
-      old_time = Benchmark.realtime { block.call(repeated_addition) }
-      new_time = Benchmark.realtime { block.call(current) }
+      old_time = elapsed.call { block.call(repeated_addition) }
+      new_time = elapsed.call { block.call(current) }
       raise "results disagree for #{label}" unless block.call(repeated_addition) == block.call(current)
 
       puts format('%-28s %13.6fs %13.6fs %9.0fx', label, old_time, new_time, old_time / new_time)

@@ -34,7 +34,7 @@ RSpec.describe Encryptions::EncryptStringService do
         result = described_class.call(original_string: '')
 
         expect(result).to be_failure
-        expect(result.status).to eq(:unprocessable_entity)
+        expect(result.status).to eq(:unprocessable_content)
         expect(result.error).to eq('Missing parameter or its value: original_string')
         expect(result.data).to eq(original_string: '', encrypted_string: nil)
       end
@@ -50,7 +50,7 @@ RSpec.describe Encryptions::EncryptStringService do
           .not_to change(StringEncryption, :count)
 
         expect(result).to be_failure
-        expect(result.status).to eq(:unprocessable_entity)
+        expect(result.status).to eq(:unprocessable_content)
         expect(result.data[:original_string]).to be_nil
       end
     end

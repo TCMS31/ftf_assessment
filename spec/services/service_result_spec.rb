@@ -16,7 +16,7 @@ RSpec.describe ServiceResult do
     result = described_class.failure('nope', { a: 1 })
 
     expect(result).to be_failure
-    expect(result.status).to eq(:unprocessable_entity)
+    expect(result.status).to eq(:unprocessable_content)
     expect(result.to_h).to eq(a: 1, error: 'nope')
   end
 

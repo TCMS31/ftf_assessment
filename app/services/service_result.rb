@@ -15,7 +15,7 @@ class ServiceResult
   end
 
   # @param error [String] a message safe to show to an end user
-  def self.failure(error, data = {}, status: :unprocessable_entity)
+  def self.failure(error, data = {}, status: :unprocessable_content)
     new(success: false, data: data, error: error, status: status)
   end
 

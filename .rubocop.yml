@@ -2,7 +2,7 @@
 # Everything below is a deliberate choice, not a generated exclusion list.
 
 AllCops:
-  TargetRubyVersion: 3.1
+  TargetRubyVersion: 3.4
   NewCops: enable
   SuggestExtensions: false
   Exclude:
