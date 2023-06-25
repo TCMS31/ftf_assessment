@@ -12,12 +12,19 @@ class WikisController < ApplicationController
     @error_message = result.error
 
     respond_to do |format|
-      format.html { render :translate }
+      format.html { render :translate, status: html_status(result) }
       format.json { render json: json_response, status: result.status }
     end
   end
 
   private
+
+  # The empty form is a normal page, not an error, so a blank title stays 200.
+  # A failed fetch keeps the service's status (502), so the inline error page
+  # is not reported to caches and monitors as a success.
+  def html_status(result)
+    @article_title.blank? ? :ok : result.status
+  end
 
   def wiki_params
     params.permit(:wiki_url, :format)

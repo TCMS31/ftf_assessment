@@ -34,6 +34,13 @@ RSpec.describe 'GET /wiki' do
     expect(response.body).to include('Ellohay orldway')
   end
 
+  it 'keeps the empty form a 200 when the search box is submitted blank' do
+    get '/wiki', params: { wiki_url: '  ' }
+
+    expect(response).to have_http_status(:ok)
+    expect(response.body).to include('Enter an article title above')
+  end
+
   it 'shows the empty state at the root with no article requested' do
     get '/'
 
@@ -59,7 +66,8 @@ RSpec.describe 'GET /wiki' do
 
     get '/wiki/Anything'
 
-    expect(response).to have_http_status(:ok)
+    expect(response).to have_http_status(:bad_gateway)
+    expect(response.media_type).to eq('text/html')
     expect(response.body).to include('Could not retrieve that Wikipedia article')
     expect(response.body).not_to include('SocketError')
   end

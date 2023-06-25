@@ -44,6 +44,33 @@ RSpec.describe WikipediaClient do
       expect(stub).to have_been_requested
     end
 
+    # Regression: Wikipedia 301s "pig_latin" to "Pig_latin", and the client
+    # treated every non-200 as a failure, so a lower-case title typed into the
+    # form always ended on the error page.
+    it 'follows a redirect to the canonical title' do
+      stub_request(:get, 'https://en.wikipedia.org/wiki/pig_latin')
+        .to_return(status: 301, headers: { 'Location' => '/wiki/Pig_latin' })
+      stub_request(:get, 'https://en.wikipedia.org/wiki/Pig_latin').to_return(status: 200, body: '<p>Found</p>')
+
+      expect(client.article_paragraphs('pig latin')).to eq(['Found'])
+    end
+
+    it 'refuses a redirect to another host' do
+      stub_request(:get, 'https://en.wikipedia.org/wiki/Elsewhere')
+        .to_return(status: 302, headers: { 'Location' => 'https://example.com/wiki/Elsewhere' })
+
+      expect { client.article_paragraphs('Elsewhere') }.to raise_error(described_class::FetchError, /Off-site/)
+    end
+
+    it 'gives up after a few redirects' do
+      stub_request(:get, %r{\Ahttps://en\.wikipedia\.org/wiki/Loop})
+        .to_return(status: 301, headers: { 'Location' => '/wiki/Loop' })
+
+      expect { client.article_paragraphs('Loop') }.to raise_error(described_class::FetchError, /301/)
+      expect(a_request(:get, 'https://en.wikipedia.org/wiki/Loop'))
+        .to have_been_made.times(described_class::MAX_REDIRECTS + 1)
+    end
+
     it 'raises FetchError on a 404' do
       stub_wikipedia_missing('Nope')
 

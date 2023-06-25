@@ -25,6 +25,7 @@ class WikipediaClient
   DEFAULT_BASE_URL = 'https://en.wikipedia.org/wiki/'
   DEFAULT_OPEN_TIMEOUT = 3
   DEFAULT_READ_TIMEOUT = 5
+  MAX_REDIRECTS = 3
   USER_AGENT = 'ftf-assessment/1.0 (https://github.com/; pig latin translator)'
 
   # @param base_url [String]
@@ -51,13 +52,32 @@ class WikipediaClient
 
   attr_reader :base_url, :open_timeout, :read_timeout
 
+  # Wikipedia answers a title with a lower-case first letter ("pig_latin") with a
+  # 301 to the canonical title, so a few same-host redirects are followed.
+  # Anything pointing at another host is refused rather than fetched.
   def fetch(title)
     uri = article_uri(title)
     response = get(uri)
 
+    MAX_REDIRECTS.times do
+      break unless response.is_a?(Net::HTTPRedirection)
+
+      uri = redirect_target(uri, response['location'], title)
+      response = get(uri)
+    end
+
     raise FetchError, "Wikipedia returned #{response.code} for #{title.inspect}" unless response.is_a?(Net::HTTPSuccess)
 
     response.body
+  end
+
+  def redirect_target(from, location, title)
+    target = from.merge(location.to_s)
+    raise FetchError, "Off-site redirect for #{title.inspect}" unless target.host == from.host
+
+    target
+  rescue URI::Error
+    raise FetchError, "Invalid redirect for #{title.inspect}"
   end
 
   def get(uri)
