@@ -1,14 +1,10 @@
 # Pig Latin, ROT13, and multiplication without `*`
 
-A Rails 7.0 assessment built around three unrelated exercises: a JSON endpoint that
+A small Rails 8.1 app built around three unrelated exercises: a JSON endpoint that
 ROT13-encrypts a string and records the pair in PostgreSQL, a page that fetches a
 Wikipedia article and renders it beside a Pig Latin translation, and a library that
 implements integer `multiply` and `power` from addition alone. No login, no user model,
 no background worker.
-
-`ftf` is initials. They survive as the Rails module name (`FtfAssessment`), the database
-names and `FTF_ASSESSMENT_DATABASE_PASSWORD`, and nothing in the code depends on what
-they stand for.
 
 ## The three exercises
 
@@ -26,8 +22,9 @@ answers `success?`, carries the HTTP status). Controllers do HTTP and nothing el
 
 ## The page
 
-Captured at 1440x900 against `bin/rails server`. `docs/capture_api.sh` regenerates the
-text captures in [`docs/output/`](docs/output).
+Captured with headless Chromium at 1440x900 (and 390x844 for the phone layout) against
+the app running in production mode. `docs/capture_api.sh` regenerates the text captures
+in [`docs/output/`](docs/output).
 
 `/wiki/Pig_Latin`, 26 paragraphs each side. The article states its own expected output —
 `"she does not know"` becomes `"eshay oesday otnay owknay"` — and the right-hand column
@@ -41,9 +38,14 @@ parentheses is URL-encoded before it reaches Wikipedia.
 ![The Ruby article translated](docs/screenshots/translation-ruby.png)
 
 A title Wikipedia does not have. The failure is inline and mentions no URL, exception
-class or status code.
+class or status code. The page itself is served with a 502, so a cache or monitor in
+front of the app does not mistake it for a success.
 
 ![The error state for an unknown article title](docs/screenshots/error-unknown-article.png)
+
+Below 860px the two columns stack, original first.
+
+![The Pig Latin article on a phone-sized screen](docs/screenshots/translation-mobile.png)
 
 ## What happens on GET /wiki/:title
 
@@ -68,6 +70,7 @@ sequenceDiagram
     else not cached
         S->>W: article_paragraphs(title)
         W->>W: url_encode the title, 3s open and 5s read timeout
+        W->>W: follow up to 3 redirects on the same host
         alt Wikipedia answers 200
             W-->>S: paragraph texts
             S->>T: translate(paragraph), one call per paragraph
@@ -91,19 +94,23 @@ Measured on the same article five times after a server restart
 
 ```
 request         bytes    seconds
-#1              52500   3.186100    cold
-#2              52500   0.006994
-#5              52500   0.006668
+#1              50884   0.744394    cold
+#2              50884   0.014329
+#5              50884   0.004754
 ```
 
 The client's 3s open and 5s read timeouts bound a request at 8 seconds rather than the
 60 + 60 that `Net::HTTP` defaults to, and `WikipediaClient::TRANSPORT_ERRORS` collapses
 DNS, TLS, refused-connection and timeout failures into one `FetchError` for callers.
 
+Wikipedia answers a title whose first letter is lower case (`pig_latin`) with a 301 to the
+canonical article. The client follows up to three redirects, and only on the same host;
+a redirect anywhere else is treated as a failed fetch.
+
 ## Running it
 
 ```bash
-# Ruby 3.1.3 and a running PostgreSQL are the only prerequisites.
+# Ruby 3.4.12 (see .ruby-version) and a running PostgreSQL are the only prerequisites.
 bundle install
 bin/rails db:prepare
 bin/rails server            # http://localhost:3000
@@ -112,8 +119,8 @@ bin/rails server            # http://localhost:3000
 Open <http://localhost:3000>, type an article title, press Translate.
 
 ```bash
-bundle exec rspec                       # 101 examples, 0 failures
-bundle exec rubocop                     # 53 files inspected, no offenses detected
+bundle exec rspec                       # 109 examples, 0 failures
+bundle exec rubocop                     # 46 files inspected, no offenses detected
 bundle exec rake benchmark:arithmetic
 docs/capture_api.sh                     # regenerates docs/output against a running server
 ```
@@ -126,8 +133,9 @@ it.
 With Docker instead:
 
 ```bash
-echo "SECRET_KEY_BASE=$(bin/rails secret)" > .env   # compose reads .env, which is gitignored
-docker compose up --build                            # http://localhost:8710
+cp .env.example .env                    # compose reads .env, which is gitignored
+# then set SECRET_KEY_BASE in .env to the output of: openssl rand -hex 64
+docker compose up --build               # http://localhost:8710
 ```
 
 ## The API
@@ -139,23 +147,30 @@ Content-Type: application/json
 
 200 {"original_string":"Hello, World!","encrypted_string":"Uryyb, Jbeyq!","error":null}
 422 {"original_string":null,"encrypted_string":null,"error":"Missing parameter or its value: original_string"}
+422 {"error":"Request body cannot be empty"}
+422 {"error":"Request body must be a JSON object"}
+413 {"error":"Request body is larger than 1048576 bytes"}
 500 {"error":"Something went wrong. Please try again."}
 ```
 
 ```
-GET /wiki/:title           HTML, two columns
+GET /wiki/:title           HTML, two columns; 502 with an inline error if the fetch fails
 GET /wiki?wiki_url=:title  same action, the target of the on-page form
 GET /wiki/:title.json      {original_paragraphs, translated_paragraphs, original_content, translated_content, error_message}
 GET /up                    liveness probe: 200 "ok", no database, no network
 ```
 
-Non-string, empty, malformed and oversized bodies all come back as a 422 with a
-user-facing message. The exception detail goes to the log and never into the response —
+A missing or non-string `original_string`, an empty body, malformed JSON and a JSON value
+that is not an object each get a 422 with a user-facing message. A body over
+`MAX_ENCRYPTION_BYTES` gets a 413: the controller reads one byte past the limit to tell the
+two apart, and never buffers more than that. The exception detail goes to the log and
+never into the response —
 `Api::BaseController` renders one generic envelope for anything that escapes. The HTML
 side installs no blanket `rescue_from` at all and lets Rails render the right thing for
 the format. Real request and response pairs for every case are in
 [`docs/output/api-transcript.txt`](docs/output/api-transcript.txt), and
-`ftf_assessment.postman_collection.json` holds the same requests.
+`ftf_assessment.postman_collection.json` holds the same requests with a `base_url`
+variable (port 3000 for `bin/rails server`, 8710 for Compose).
 
 ## Environment
 
@@ -185,9 +200,11 @@ URL or password are required in production.
 spelled out at the top of `app/lib/pig_latin/translator.rb` and pinned by
 `spec/lib/pig_latin/translator_spec.rb`. A non-initial `y` counts as a vowel
 (`syllable` → `yllablesay`). Leading and trailing non-letters stay put, so `know"`
-becomes `owknay"` rather than `ow"knay`. A token with no letters at all is returned
-untouched. The original word's capitalisation shape is carried over. All four are
-defensible choices, not the only ones.
+becomes `owknay"` rather than `ow"knay`. Hyphens and slashes separate words, so
+`well-known` becomes `ellway-ownknay`, while an apostrophe between letters stays inside
+its word (`don't` → `on'tday`). A token with no letters at all is returned untouched.
+The original word's capitalisation shape is carried over. All of these are defensible
+choices, not the only ones.
 
 **The extension seam is the cipher registry.** `enc_type` is a free-text column, so the
 schema was always ready for more than one cipher. `Ciphers::Registry` makes that
@@ -209,10 +226,10 @@ alongside the current implementation, checks the two agree on every case, and ti
 
 ```
 case                           repeated-add  shift-and-add    speedup
-multiply(2, 1_000_000)            0.037398s      0.000018s      2078x
-multiply(2, 10_000_000)           0.380346s      0.000011s     34577x
-multiply(123_456, 98_765)         0.003709s      0.000007s       530x
-power(2, 64)                      0.000021s      0.000016s         1x
+multiply(2, 1_000_000)            0.038285s      0.000013s      2964x
+multiply(2, 10_000_000)           0.384022s      0.000011s     34650x
+multiply(123_456, 98_765)         0.003644s      0.000002s      1784x
+power(2, 64)                      0.000029s      0.000015s         2x
 ```
 
 ## Known gaps
@@ -233,5 +250,11 @@ power(2, 64)                      0.000021s      0.000016s         1x
 - **`config/credentials.yml.enc` is committed without its `master.key`**, which is
   correctly gitignored and absent. Nothing in the app reads the credentials and
   production uses `SECRET_KEY_BASE`, but a fresh clone cannot run `rails credentials:edit`.
-- **The Docker image has not been built or booted** from this checkout. The `Dockerfile`
-  and `docker-compose.yml` are committed and reviewable, but unexercised.
+- **The Docker image has not been built since the Ruby 3.4 upgrade.** The same production
+  boot it performs (`assets:precompile`, `db:prepare`, Puma on `ruby:3.4.12-slim` with the
+  locked gems, against PostgreSQL 16) has been run and served every page and endpoint
+  above, but `docker compose up --build` itself is unverified.
+
+## License
+
+MIT, see [`LICENSE`](LICENSE).

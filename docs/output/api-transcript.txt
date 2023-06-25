@@ -1,36 +1,50 @@
 # Captured API transcript
-# Regenerate with: docs/capture_api.sh   (app on http://127.0.0.1:8710)
-# Date: 2026-09-25T10:33:10Z
+# Regenerate with: docs/capture_api.sh   (app on http://web:3000)
+# Date: 2026-11-09T08:30:51Z
 
 $ curl -i -X POST $HOST/api/v1/encryptions/rot13 -d {"original_string":"Hello, World!"}
 HTTP/1.1 200 OK
-Content-Type: application/json; charset=utf-8
+content-type: application/json; charset=utf-8
 
 {"original_string":"Hello, World!","encrypted_string":"Uryyb, Jbeyq!","error":null}
 
 $ ... -d {}                            # original_string absent
-HTTP/1.1 422 Unprocessable Entity
-Content-Type: application/json; charset=utf-8
+HTTP/1.1 422 Unprocessable Content
+content-type: application/json; charset=utf-8
 
 {"original_string":null,"encrypted_string":null,"error":"Missing parameter or its value: original_string"}
 
 $ ... -d {"original_string":12345}     # non-string: refused, nothing internal leaked
-HTTP/1.1 422 Unprocessable Entity
-Content-Type: application/json; charset=utf-8
+HTTP/1.1 422 Unprocessable Content
+content-type: application/json; charset=utf-8
 
 {"original_string":null,"encrypted_string":null,"error":"Missing parameter or its value: original_string"}
 
 $ ... --data-binary ""                 # empty body
-HTTP/1.1 422 Unprocessable Entity
-Content-Type: application/json; charset=utf-8
+HTTP/1.1 422 Unprocessable Content
+content-type: application/json; charset=utf-8
 
 {"error":"Request body cannot be empty"}
 
 $ ... -d {not json                     # malformed body
-HTTP/1.1 422 Unprocessable Entity
-Content-Type: application/json; charset=utf-8
+HTTP/1.1 422 Unprocessable Content
+content-type: application/json; charset=utf-8
 
-{"error":"Request body cannot be empty"}
+{"error":"Request body must be a JSON object"}
+
+$ ... -d ["a","b"]                     # valid JSON, but not an object
+HTTP/1.1 422 Unprocessable Content
+content-type: application/json; charset=utf-8
+
+{"error":"Request body must be a JSON object"}
+
+$ ... --data-binary @big.json          # 1 MB of text plus the JSON wrapper
+HTTP/1.1 100 Continue
+
+HTTP/1.1 413 Content Too Large
+content-type: application/json; charset=utf-8
+
+{"error":"Request body is larger than 1048576 bytes"}
 
 $ curl $HOST/wiki/Pig_Latin.json       # first paragraph, original and translated
 {
@@ -39,8 +53,18 @@ $ curl $HOST/wiki/Pig_Latin.json       # first paragraph, original and translate
   "translated": "Igpay Atinlay isway away anguagelay amegay orway antcay inway ichwhay ordsway areway alteredway ybay addingway away abricatedfay uffixsay orway ybay ovingmay ethay onsetway orway initialway onsonantcay orway onsonantcay usterclay ofway away ordway otay ethay endway ofway ethay ordway andway addingway away ocalicvay yllablesay (usuallyway -ayway orway /eɪway/) otay eatecray uchsay away uffixsay.[1] Orfay exampleway, inway Englishway, \"eshay oesday otnay owknay\" ouldway ecomebay \"eshayway oesdayway otnayway owknayway\"."
 }
 
+$ curl -o /dev/null -w "%{http_code}" $HOST/wiki/pig_latin.json   # lower case: Wikipedia redirects, the client follows
+200
+
 $ curl -o /dev/null -w "%{http_code}" $HOST/wiki/No_Such_Article_ZZZ_999.json   # upstream 404 -> 502
 502
 
 $ curl -o /dev/null -w '%{http_code} %{content_type}' "$HOST/wiki?wiki_url=Rock+%27n%27+roll"   # title with spaces and quotes
 200 text/html; charset=utf-8
+
+$ curl -i $HOST/up                       # liveness probe
+HTTP/1.1 200 OK
+content-type: text/plain
+
+ok
+

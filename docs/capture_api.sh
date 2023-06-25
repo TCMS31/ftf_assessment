@@ -39,9 +39,24 @@ api() { curl -sS -i -X POST "$HOST/api/v1/encryptions/rot13" -H 'Content-Type: a
   api -d '{not json'
   echo
 
+  echo '$ ... -d ["a","b"]                     # valid JSON, but not an object'
+  api -d '["a","b"]'
+  echo
+
+  echo '$ ... --data-binary @big.json          # 1 MB of text plus the JSON wrapper'
+  big="$(mktemp)"
+  python3 -c "print('{\"original_string\":\"' + 'a' * 1048576 + '\"}')" > "$big"
+  api --data-binary @"$big"
+  rm -f "$big"
+  echo
+
   echo '$ curl $HOST/wiki/Pig_Latin.json       # first paragraph, original and translated'
   curl -sS "$HOST/wiki/Pig_Latin.json" | python3 -c \
     "import sys,json;d=json.load(sys.stdin);print(json.dumps({'error_message':d['error_message'],'original':d['original_paragraphs'][0],'translated':d['translated_paragraphs'][0]},indent=2,ensure_ascii=False))"
+  echo
+
+  echo '$ curl -o /dev/null -w "%{http_code}" $HOST/wiki/pig_latin.json   # lower case: Wikipedia redirects, the client follows'
+  curl -sS -o /dev/null -w '%{http_code}\n' "$HOST/wiki/pig_latin.json"
   echo
 
   echo '$ curl -o /dev/null -w "%{http_code}" $HOST/wiki/No_Such_Article_ZZZ_999.json   # upstream 404 -> 502'
@@ -50,6 +65,11 @@ api() { curl -sS -i -X POST "$HOST/api/v1/encryptions/rot13" -H 'Content-Type: a
 
   echo "\$ curl -o /dev/null -w '%{http_code} %{content_type}' \"\$HOST/wiki?wiki_url=Rock+%27n%27+roll\"   # title with spaces and quotes"
   curl -sS -o /dev/null -w '%{http_code} %{content_type}\n' "$HOST/wiki?wiki_url=Rock+%27n%27+roll"
+  echo
+
+  echo '$ curl -i $HOST/up                       # liveness probe'
+  curl -sS -i "$HOST/up" | grep -viE "$NOISE"
+  echo
 } > "$OUT/api-transcript.txt" 2>&1
 
 {
