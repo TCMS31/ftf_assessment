@@ -1,0 +1,38 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: ftf_assessment
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-ftf_assessment_dev}
+      POSTGRES_DB: ftf_assessment_production
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    # Deliberately not published to the host: only the app needs to reach it.
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ftf_assessment"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  web:
+    build:
+      context: .
+      target: runtime
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgres://ftf_assessment:${POSTGRES_PASSWORD:-ftf_assessment_dev}@db:5432/ftf_assessment_production
+      # Required. Generate with `bin/rails secret`; there is no default on purpose.
+      SECRET_KEY_BASE: ${SECRET_KEY_BASE:?set SECRET_KEY_BASE, e.g. in a .env file}
+      RAILS_MAX_THREADS: ${RAILS_MAX_THREADS:-5}
+      WIKIPEDIA_CACHE_TTL_SECONDS: ${WIKIPEDIA_CACHE_TTL_SECONDS:-3600}
+      WIKIPEDIA_OPEN_TIMEOUT: ${WIKIPEDIA_OPEN_TIMEOUT:-3}
+      WIKIPEDIA_READ_TIMEOUT: ${WIKIPEDIA_READ_TIMEOUT:-5}
+    ports:
+      - "8710:3000"
+    command: >
+      sh -c "bundle exec rails db:prepare && bundle exec puma -C config/puma.rb"
+
+volumes:
+  pgdata:

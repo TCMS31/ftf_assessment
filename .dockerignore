@@ -1,0 +1,40 @@
+# Version control and editor noise
+.git
+.gitattributes
+.gitignore
+.github
+.DS_Store
+**/.DS_Store
+
+# Local dependency and build output — reinstalled inside the image
+/vendor/bundle
+/node_modules
+/public/assets
+/public/packs
+/app/assets/builds
+
+# Runtime state that must never be baked into an image
+/log/*
+/tmp/*
+/storage/*
+!/log/.keep
+!/tmp/.keep
+!/tmp/pids/.keep
+!/storage/.keep
+
+# Secrets
+/config/master.key
+/config/credentials/*.key
+.env
+.env.*
+
+# Tests, docs and tooling: not needed at runtime
+/spec
+/docs
+/.rspec
+/.rubocop.yml
+README.md
+ftf_assessment.postman_collection.json
+Dockerfile
+docker-compose.yml
+.dockerignore

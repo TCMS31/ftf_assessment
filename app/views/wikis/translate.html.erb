@@ -1,0 +1,48 @@
+<% content_for :title, @article_title.presence || t('wiki.title') %>
+
+<header class="masthead">
+  <div class="masthead__inner">
+    <h1 class="masthead__title"><%= t('wiki.title') %></h1>
+    <p class="masthead__subtitle"><%= t('wiki.subtitle') %></p>
+
+    <%= form_with url: wiki_search_path, method: :get, class: "search" do |form| %>
+      <%= form.label :wiki_url, t('wiki.search_label'), class: "search__label" %>
+      <div class="search__row">
+        <%= form.text_field :wiki_url, value: @article_title,
+              placeholder: t('wiki.search_placeholder'), class: "search__input",
+              autocomplete: "off", autofocus: @article_title.blank? %>
+        <%= form.submit t('wiki.search_button'), class: "search__button" %>
+      </div>
+    <% end %>
+  </div>
+</header>
+
+<main class="page">
+  <% if @article_title.blank? %>
+    <p class="notice notice--muted"><%= t('wiki.empty_prompt') %></p>
+  <% elsif @error_message.present? %>
+    <p class="notice notice--error" role="alert"><%= @error_message %></p>
+  <% else %>
+    <div class="columns">
+      <section class="column" aria-labelledby="original-heading">
+        <h2 class="column__heading" id="original-heading"><%= t('wiki.original_heading') %></h2>
+        <p class="column__meta"><%= t('wiki.paragraph_count', count: @original_paragraphs.size) %></p>
+        <div class="column__body">
+          <% @original_paragraphs.each do |paragraph| %>
+            <p><%= paragraph %></p>
+          <% end %>
+        </div>
+      </section>
+
+      <section class="column column--accent" aria-labelledby="translated-heading">
+        <h2 class="column__heading" id="translated-heading"><%= t('wiki.translated_heading') %></h2>
+        <p class="column__meta"><%= t('wiki.paragraph_count', count: @translated_paragraphs.size) %></p>
+        <div class="column__body">
+          <% @translated_paragraphs.each do |paragraph| %>
+            <p><%= paragraph %></p>
+          <% end %>
+        </div>
+      </section>
+    </div>
+  <% end %>
+</main>

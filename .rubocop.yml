@@ -1,0 +1,62 @@
+# RuboCop configuration actually used by this project: `bundle exec rubocop`.
+# Everything below is a deliberate choice, not a generated exclusion list.
+
+AllCops:
+  TargetRubyVersion: 3.1
+  NewCops: enable
+  SuggestExtensions: false
+  Exclude:
+    # Framework-generated files we do not hand-edit.
+    - 'bin/**/*'
+    - 'db/schema.rb'
+    - 'config/boot.rb'
+    - 'vendor/**/*'
+    - 'tmp/**/*'
+    - 'node_modules/**/*'
+
+# Rails defaults to 120; 80 is too tight for ERB-adjacent Ruby.
+Layout/LineLength:
+  Max: 120
+
+# RSpec example groups and Rails config blocks are legitimately long.
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*'
+    - 'config/environments/*.rb'
+    - 'config/routes.rb'
+    - 'lib/tasks/*.rake'
+
+Metrics/MethodLength:
+  Max: 15
+
+Metrics/AbcSize:
+  Max: 20
+
+# Documentation is present on the classes that carry design intent; requiring a
+# comment on every trivial Rails stub adds noise rather than information.
+Style/Documentation:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: true
+
+# `attr_reader` on services is intentionally private; the cop's suggestion to
+# use them everywhere conflicts with explicit keyword initialisers.
+Style/StringLiterals:
+  EnforcedStyle: single_quotes
+
+Style/StringLiteralsInInterpolation:
+  EnforcedStyle: single_quotes
+
+Naming/VariableNumber:
+  Enabled: false
+
+# Column-aligned benchmark tables read better with positional tokens.
+Style/FormatStringToken:
+  Exclude:
+    - 'lib/tasks/*.rake'
+
+# `foo: foo` shorthand is terse but hides the contract at call sites that build
+# public payloads, so both forms are allowed.
+Style/HashSyntax:
+  EnforcedShorthandSyntax: either

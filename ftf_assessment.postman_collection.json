@@ -1,0 +1,282 @@
+{
+	"info": {
+		"_postman_id": "500a75ae-5f92-41a2-9b29-22b8b9978bd3",
+		"name": "ftf_assessment",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "rot13",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \"original_string\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut at dui et lacus tincidunt pulvinar ac cursus libero. Suspendisse sed mauris orci. Cras semper risus sit amet metus rhoncus ultrices. Praesent accumsan tortor vel urna dictum eleifend. Nam sapien mauris, volutpat et magna ac, congue varius turpis. Nullam vitae ipsum nec felis dapibus varius a eget urna. Ut sem nibh, vehicula sed gravida sed, efficitur at nibh. Morbi vulputate tempor malesuada. Aliquam suscipit neque mi, in pellentesque mauris consequat sit amet. Nunc rutrum sapien at nibh feugiat viverra. Duis fringilla nulla diam, ac fermentum turpis tincidunt auctor. Quisque vitae sapien odio. Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed ornare, erat vel ullamcorper semper, leo mi hendrerit risus, et molestie lorem ipsum at lectus. Sed sit amet lacus sed dui auctor pellentesque vitae ac tortor. Pellentesque egestas massa eget venenatis faucibus. Nullam eros libero, hendrerit eget ante ut, vestibulum dictum mi. Aliquam vel fringilla lacus. Praesent laoreet egestas felis id pretium. Mauris felis mi, commodo vel imperdiet at, sagittis in odio. Integer nulla felis, mollis sed quam ut, eleifend vulputate tortor. Pellentesque aliquam magna metus, vitae dignissim enim aliquam vel. Curabitur dictum libero porttitor, accumsan velit ut, rutrum orci. Nam porttitor pretium dignissim. Vestibulum vehicula interdum est ut iaculis. Nulla vel tincidunt leo, ac cursus ligula. Praesent justo elit, maximus vitae augue vel, sagittis lobortis est. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Maecenas venenatis, ex eget eleifend consectetur, turpis metus dictum nulla, sed vulputate odio arcu semper nisl. Maecenas et orci mi. Phasellus sed tellus at nisl aliquet gravida. Proin vel nibh nunc. Mauris vel lacus in libero luctus pulvinar. Vestibulum euismod, neque eu mattis posuere, augue turpis vehicula nibh, non lacinia lorem tellus nec justo. In ipsum ligula, mollis at tempor ut, feugiat non quam. Sed mauris urna, volutpat sodales dignissim nec, lobortis a neque. Aliquam gravida, risus ut finibus ultricies, odio turpis lobortis ante, a mattis ligula tortor in ante. Vivamus eget malesuada lorem, vel viverra lorem. Mauris pellentesque elit tellus. Aliquam ut nisi tempor, condimentum elit sit amet, aliquam odio. Fusce a sem nec turpis vestibulum pulvinar ac quis risus. Donec sed quam a massa lacinia egestas sed id elit. Suspendisse tristique felis sed lacus maximus fermentum. Donec id tristique sem. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Sed in mauris sit amet mi aliquet tincidunt. Phasellus tortor nibh, accumsan quis lacinia eget, tempus vitae ipsum. Aenean consectetur nisi non ullamcorper ultrices. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vel enim sollicitudin, imperdiet neque non, egestas nisi. Curabitur malesuada sagittis metus eget vehicula. Morbi ut ligula ut lacus hendrerit porttitor ut at arcu. Nulla vitae vulputate odio. Praesent egestas, dui id placerat sodales, metus nibh posuere elit, ac posuere lectus tortor pellentesque erat. Morbi sit amet nulla nec tellus tincidunt luctus. Integer orci felis, iaculis sed sapien non, tempus molestie ligula. Nulla sollicitudin efficitur massa, vitae pharetra lorem dictum sit amet. Aenean fringilla malesuada nunc posuere pellentesque. Quisque imperdiet, augue imperdiet pellentesque efficitur, sapien quam porta libero, at euismod arcu nibh commodo elit. Cras eu tellus at velit finibus rhoncus. Sed fermentum pulvinar nisl, ut gravida massa accumsan vel. Sed nec porttitor magna. Nulla molestie felis eu erat commodo, tempor placerat nisl tristique. Aliquam erat volutpat. Sed pulvinar erat diam, ac efficitur arcu congue venenatis. In hac habitasse platea dictumst. Duis cursus vestibulum venenatis. Quisque ut magna sed purus porttitor varius. Nunc interdum nibh nisi, non elementum orci finibus vel. Mauris libero urna, cursus in sem at, laoreet suscipit magna. Nulla facilisi. Donec maximus commodo lacus quis lacinia. Suspendisse nec bibendum felis. Nullam ut faucibus mauris. Nam quis nisl sed lectus varius ullamcorper et vel tortor. Nulla porttitor odio id convallis vehicula. Nulla lacinia metus ac nunc ullamcorper, nec malesuada tellus commodo. Aliquam porttitor libero at vulputate imperdiet. Curabitur commodo at felis nec hendrerit. Nunc at egestas ipsum. Nunc ullamcorper id massa ac bibendum. Cras et dapibus neque, in egestas felis. Vestibulum felis turpis, tincidunt ac euismod vel, porttitor at dui. Donec maximus egestas est sed elementum. Aenean fringilla, diam ultricies convallis ornare, purus tellus vehicula libero, ac tristique nulla dui at odio. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Vivamus justo mauris, convallis id elit at, porta maximus magna. Ut semper dignissim lacus, at feugiat ligula maximus eu. Aenean eget nisl ac massa vestibulum pulvinar. Maecenas molestie erat felis, in commodo nibh varius eu. Mauris luctus, augue ac cursus rutrum, tortor magna faucibus dui, a convallis augue nisl non massa. Nulla ac volutpat augue. Nunc vitae ligula nec leo iaculis condimentum et id tortor. Mauris eu arcu posuere, suscipit nisi quis, pharetra sem. Cras nec vestibulum ex. Donec tempor commodo viverra. Etiam mattis ligula quis nunc eleifend, vel feugiat massa viverra. Nam vehicula dapibus velit. Mauris consequat semper erat in faucibus. Pellentesque et nunc vitae ex iaculis aliquet. Aliquam euismod ultrices lectus. Maecenas non nulla dapibus dui blandit tristique. Pellentesque sed ex vulputate, maximus dui vitae, fermentum diam. Aenean risus justo, dictum ac sollicitudin ut, dapibus a elit. Cras at laoreet turpis. Sed ullamcorper orci ut lectus malesuada cursus. Praesent purus dui, vehicula et mauris at, maximus imperdiet massa. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Phasellus rhoncus, quam sed vehicula aliquet, ligula arcu aliquam ipsum, scelerisque tincidunt eros neque a ipsum. Fusce arcu leo, imperdiet et iaculis quis, vehicula in eros. Donec sagittis tortor et congue posuere. Donec mattis mollis erat eget convallis. Integer sed orci eget mauris blandit egestas vel vel lorem. Etiam sodales consequat felis vel fringilla. Etiam vitae venenatis nisi. Nunc interdum placerat risus id tempus. In rutrum tincidunt sagittis. Sed ligula nulla, tincidunt eu iaculis id, porta at risus. Quisque vitae tellus ultricies, pretium risus at, tempus eros. Duis in est feugiat, consectetur sem et, pretium ante. Etiam vitae eleifend elit. Nullam tempus diam nec felis facilisis aliquet. Sed cursus libero nunc, at dictum elit aliquam posuere. Donec sed elit auctor, eleifend sapien eget, aliquet diam. Nunc tincidunt suscipit dolor, id consectetur neque dapibus in. Quisque lectus sapien, elementum eget lectus sed, maximus efficitur arcu. Nulla ipsum leo, placerat non quam at, aliquet accumsan lectus. Ut ornare ornare sagittis. Proin feugiat suscipit ex, a consectetur lorem ullamcorper sit amet. Mauris ut mi id mauris blandit interdum quis ut mauris. Nam consectetur iaculis tortor, eu placerat eros ultricies nec. Phasellus vitae neque magna. Phasellus auctor ultricies justo at imperdiet. Pellentesque a semper dui, aliquam finibus augue. Nullam scelerisque dolor augue. Curabitur hendrerit.\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/api/v1/encryptions/rot13",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"encryptions",
+						"rot13"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "rot13",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"original_string\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut at dui et lacus tincidunt pulvinar ac cursus libero. Suspendisse sed mauris orci. Cras semper risus sit amet metus rhoncus ultrices. Praesent accumsan tortor vel urna dictum eleifend. Nam sapien mauris, volutpat et magna ac, congue varius turpis. Nullam vitae ipsum nec felis dapibus varius a eget urna. Ut sem nibh, vehicula sed gravida sed, efficitur at nibh. Morbi vulputate tempor malesuada. Aliquam suscipit neque mi, in pellentesque mauris consequat sit amet. Nunc rutrum sapien at nibh feugiat viverra. Duis fringilla nulla diam, ac fermentum turpis tincidunt auctor. Quisque vitae sapien odio. Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed ornare, erat vel ullamcorper semper, leo mi hendrerit risus, et molestie lorem ipsum at lectus. Sed sit amet lacus sed dui auctor pellentesque vitae ac tortor. Pellentesque egestas massa eget venenatis faucibus. Nullam eros libero, hendrerit eget ante ut, vestibulum dictum mi. Aliquam vel fringilla lacus. Praesent laoreet egestas felis id pretium. Mauris felis mi, commodo vel imperdiet at, sagittis in odio. Integer nulla felis, mollis sed quam ut, eleifend vulputate tortor. Pellentesque aliquam magna metus, vitae dignissim enim aliquam vel. Curabitur dictum libero porttitor, accumsan velit ut, rutrum orci. Nam porttitor pretium dignissim. Vestibulum vehicula interdum est ut iaculis. Nulla vel tincidunt leo, ac cursus ligula. Praesent justo elit, maximus vitae augue vel, sagittis lobortis est. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Maecenas venenatis, ex eget eleifend consectetur, turpis metus dictum nulla, sed vulputate odio arcu semper nisl. Maecenas et orci mi. Phasellus sed tellus at nisl aliquet gravida. Proin vel nibh nunc. Mauris vel lacus in libero luctus pulvinar. Vestibulum euismod, neque eu mattis posuere, augue turpis vehicula nibh, non lacinia lorem tellus nec justo. In ipsum ligula, mollis at tempor ut, feugiat non quam. Sed mauris urna, volutpat sodales dignissim nec, lobortis a neque. Aliquam gravida, risus ut finibus ultricies, odio turpis lobortis ante, a mattis ligula tortor in ante. Vivamus eget malesuada lorem, vel viverra lorem. Mauris pellentesque elit tellus. Aliquam ut nisi tempor, condimentum elit sit amet, aliquam odio. Fusce a sem nec turpis vestibulum pulvinar ac quis risus. Donec sed quam a massa lacinia egestas sed id elit. Suspendisse tristique felis sed lacus maximus fermentum. Donec id tristique sem. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Sed in mauris sit amet mi aliquet tincidunt. Phasellus tortor nibh, accumsan quis lacinia eget, tempus vitae ipsum. Aenean consectetur nisi non ullamcorper ultrices. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vel enim sollicitudin, imperdiet neque non, egestas nisi. Curabitur malesuada sagittis metus eget vehicula. Morbi ut ligula ut lacus hendrerit porttitor ut at arcu. Nulla vitae vulputate odio. Praesent egestas, dui id placerat sodales, metus nibh posuere elit, ac posuere lectus tortor pellentesque erat. Morbi sit amet nulla nec tellus tincidunt luctus. Integer orci felis, iaculis sed sapien non, tempus molestie ligula. Nulla sollicitudin efficitur massa, vitae pharetra lorem dictum sit amet. Aenean fringilla malesuada nunc posuere pellentesque. Quisque imperdiet, augue imperdiet pellentesque efficitur, sapien quam porta libero, at euismod arcu nibh commodo elit. Cras eu tellus at velit finibus rhoncus. Sed fermentum pulvinar nisl, ut gravida massa accumsan vel. Sed nec porttitor magna. Nulla molestie felis eu erat commodo, tempor placerat nisl tristique. Aliquam erat volutpat. Sed pulvinar erat diam, ac efficitur arcu congue venenatis. In hac habitasse platea dictumst. Duis cursus vestibulum venenatis. Quisque ut magna sed purus porttitor varius. Nunc interdum nibh nisi, non elementum orci finibus vel. Mauris libero urna, cursus in sem at, laoreet suscipit magna. Nulla facilisi. Donec maximus commodo lacus quis lacinia. Suspendisse nec bibendum felis. Nullam ut faucibus mauris. Nam quis nisl sed lectus varius ullamcorper et vel tortor. Nulla porttitor odio id convallis vehicula. Nulla lacinia metus ac nunc ullamcorper, nec malesuada tellus commodo. Aliquam porttitor libero at vulputate imperdiet. Curabitur commodo at felis nec hendrerit. Nunc at egestas ipsum. Nunc ullamcorper id massa ac bibendum. Cras et dapibus neque, in egestas felis. Vestibulum felis turpis, tincidunt ac euismod vel, porttitor at dui. Donec maximus egestas est sed elementum. Aenean fringilla, diam ultricies convallis ornare, purus tellus vehicula libero, ac tristique nulla dui at odio. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Vivamus justo mauris, convallis id elit at, porta maximus magna. Ut semper dignissim lacus, at feugiat ligula maximus eu. Aenean eget nisl ac massa vestibulum pulvinar. Maecenas molestie erat felis, in commodo nibh varius eu. Mauris luctus, augue ac cursus rutrum, tortor magna faucibus dui, a convallis augue nisl non massa. Nulla ac volutpat augue. Nunc vitae ligula nec leo iaculis condimentum et id tortor. Mauris eu arcu posuere, suscipit nisi quis, pharetra sem. Cras nec vestibulum ex. Donec tempor commodo viverra. Etiam mattis ligula quis nunc eleifend, vel feugiat massa viverra. Nam vehicula dapibus velit. Mauris consequat semper erat in faucibus. Pellentesque et nunc vitae ex iaculis aliquet. Aliquam euismod ultrices lectus. Maecenas non nulla dapibus dui blandit tristique. Pellentesque sed ex vulputate, maximus dui vitae, fermentum diam. Aenean risus justo, dictum ac sollicitudin ut, dapibus a elit. Cras at laoreet turpis. Sed ullamcorper orci ut lectus malesuada cursus. Praesent purus dui, vehicula et mauris at, maximus imperdiet massa. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Phasellus rhoncus, quam sed vehicula aliquet, ligula arcu aliquam ipsum, scelerisque tincidunt eros neque a ipsum. Fusce arcu leo, imperdiet et iaculis quis, vehicula in eros. Donec sagittis tortor et congue posuere. Donec mattis mollis erat eget convallis. Integer sed orci eget mauris blandit egestas vel vel lorem. Etiam sodales consequat felis vel fringilla. Etiam vitae venenatis nisi. Nunc interdum placerat risus id tempus. In rutrum tincidunt sagittis. Sed ligula nulla, tincidunt eu iaculis id, porta at risus. Quisque vitae tellus ultricies, pretium risus at, tempus eros. Duis in est feugiat, consectetur sem et, pretium ante. Etiam vitae eleifend elit. Nullam tempus diam nec felis facilisis aliquet. Sed cursus libero nunc, at dictum elit aliquam posuere. Donec sed elit auctor, eleifend sapien eget, aliquet diam. Nunc tincidunt suscipit dolor, id consectetur neque dapibus in. Quisque lectus sapien, elementum eget lectus sed, maximus efficitur arcu. Nulla ipsum leo, placerat non quam at, aliquet accumsan lectus. Ut ornare ornare sagittis. Proin feugiat suscipit ex, a consectetur lorem ullamcorper sit amet. Mauris ut mi id mauris blandit interdum quis ut mauris. Nam consectetur iaculis tortor, eu placerat eros ultricies nec. Phasellus vitae neque magna. Phasellus auctor ultricies justo at imperdiet. Pellentesque a semper dui, aliquam finibus augue. Nullam scelerisque dolor augue. Curabitur hendrerit.\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/api/v1/encryptions/rot13",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"encryptions",
+								"rot13"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "0"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-Download-Options",
+							"value": "noopen"
+						},
+						{
+							"key": "X-Permitted-Cross-Domain-Policies",
+							"value": "none"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "strict-origin-when-cross-origin"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"c9edd35916619377b88e950bf93e2b27\""
+						},
+						{
+							"key": "Cache-Control",
+							"value": "max-age=0, private, must-revalidate"
+						},
+						{
+							"key": "X-Request-Id",
+							"value": "5eff8ec4-825c-4863-a8a6-6b1017594f96"
+						},
+						{
+							"key": "X-Runtime",
+							"value": "0.019701"
+						},
+						{
+							"key": "Server-Timing",
+							"value": "start_processing.action_controller;dur=1.36, sql.active_record;dur=5.10, process_action.action_controller;dur=7.78"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"original_string\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut at dui et lacus tincidunt pulvinar ac cursus libero. Suspendisse sed mauris orci. Cras semper risus sit amet metus rhoncus ultrices. Praesent accumsan tortor vel urna dictum eleifend. Nam sapien mauris, volutpat et magna ac, congue varius turpis. Nullam vitae ipsum nec felis dapibus varius a eget urna. Ut sem nibh, vehicula sed gravida sed, efficitur at nibh. Morbi vulputate tempor malesuada. Aliquam suscipit neque mi, in pellentesque mauris consequat sit amet. Nunc rutrum sapien at nibh feugiat viverra. Duis fringilla nulla diam, ac fermentum turpis tincidunt auctor. Quisque vitae sapien odio. Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed ornare, erat vel ullamcorper semper, leo mi hendrerit risus, et molestie lorem ipsum at lectus. Sed sit amet lacus sed dui auctor pellentesque vitae ac tortor. Pellentesque egestas massa eget venenatis faucibus. Nullam eros libero, hendrerit eget ante ut, vestibulum dictum mi. Aliquam vel fringilla lacus. Praesent laoreet egestas felis id pretium. Mauris felis mi, commodo vel imperdiet at, sagittis in odio. Integer nulla felis, mollis sed quam ut, eleifend vulputate tortor. Pellentesque aliquam magna metus, vitae dignissim enim aliquam vel. Curabitur dictum libero porttitor, accumsan velit ut, rutrum orci. Nam porttitor pretium dignissim. Vestibulum vehicula interdum est ut iaculis. Nulla vel tincidunt leo, ac cursus ligula. Praesent justo elit, maximus vitae augue vel, sagittis lobortis est. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Maecenas venenatis, ex eget eleifend consectetur, turpis metus dictum nulla, sed vulputate odio arcu semper nisl. Maecenas et orci mi. Phasellus sed tellus at nisl aliquet gravida. Proin vel nibh nunc. Mauris vel lacus in libero luctus pulvinar. Vestibulum euismod, neque eu mattis posuere, augue turpis vehicula nibh, non lacinia lorem tellus nec justo. In ipsum ligula, mollis at tempor ut, feugiat non quam. Sed mauris urna, volutpat sodales dignissim nec, lobortis a neque. Aliquam gravida, risus ut finibus ultricies, odio turpis lobortis ante, a mattis ligula tortor in ante. Vivamus eget malesuada lorem, vel viverra lorem. Mauris pellentesque elit tellus. Aliquam ut nisi tempor, condimentum elit sit amet, aliquam odio. Fusce a sem nec turpis vestibulum pulvinar ac quis risus. Donec sed quam a massa lacinia egestas sed id elit. Suspendisse tristique felis sed lacus maximus fermentum. Donec id tristique sem. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Sed in mauris sit amet mi aliquet tincidunt. Phasellus tortor nibh, accumsan quis lacinia eget, tempus vitae ipsum. Aenean consectetur nisi non ullamcorper ultrices. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vel enim sollicitudin, imperdiet neque non, egestas nisi. Curabitur malesuada sagittis metus eget vehicula. Morbi ut ligula ut lacus hendrerit porttitor ut at arcu. Nulla vitae vulputate odio. Praesent egestas, dui id placerat sodales, metus nibh posuere elit, ac posuere lectus tortor pellentesque erat. Morbi sit amet nulla nec tellus tincidunt luctus. Integer orci felis, iaculis sed sapien non, tempus molestie ligula. Nulla sollicitudin efficitur massa, vitae pharetra lorem dictum sit amet. Aenean fringilla malesuada nunc posuere pellentesque. Quisque imperdiet, augue imperdiet pellentesque efficitur, sapien quam porta libero, at euismod arcu nibh commodo elit. Cras eu tellus at velit finibus rhoncus. Sed fermentum pulvinar nisl, ut gravida massa accumsan vel. Sed nec porttitor magna. Nulla molestie felis eu erat commodo, tempor placerat nisl tristique. Aliquam erat volutpat. Sed pulvinar erat diam, ac efficitur arcu congue venenatis. In hac habitasse platea dictumst. Duis cursus vestibulum venenatis. Quisque ut magna sed purus porttitor varius. Nunc interdum nibh nisi, non elementum orci finibus vel. Mauris libero urna, cursus in sem at, laoreet suscipit magna. Nulla facilisi. Donec maximus commodo lacus quis lacinia. Suspendisse nec bibendum felis. Nullam ut faucibus mauris. Nam quis nisl sed lectus varius ullamcorper et vel tortor. Nulla porttitor odio id convallis vehicula. Nulla lacinia metus ac nunc ullamcorper, nec malesuada tellus commodo. Aliquam porttitor libero at vulputate imperdiet. Curabitur commodo at felis nec hendrerit. Nunc at egestas ipsum. Nunc ullamcorper id massa ac bibendum. Cras et dapibus neque, in egestas felis. Vestibulum felis turpis, tincidunt ac euismod vel, porttitor at dui. Donec maximus egestas est sed elementum. Aenean fringilla, diam ultricies convallis ornare, purus tellus vehicula libero, ac tristique nulla dui at odio. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Vivamus justo mauris, convallis id elit at, porta maximus magna. Ut semper dignissim lacus, at feugiat ligula maximus eu. Aenean eget nisl ac massa vestibulum pulvinar. Maecenas molestie erat felis, in commodo nibh varius eu. Mauris luctus, augue ac cursus rutrum, tortor magna faucibus dui, a convallis augue nisl non massa. Nulla ac volutpat augue. Nunc vitae ligula nec leo iaculis condimentum et id tortor. Mauris eu arcu posuere, suscipit nisi quis, pharetra sem. Cras nec vestibulum ex. Donec tempor commodo viverra. Etiam mattis ligula quis nunc eleifend, vel feugiat massa viverra. Nam vehicula dapibus velit. Mauris consequat semper erat in faucibus. Pellentesque et nunc vitae ex iaculis aliquet. Aliquam euismod ultrices lectus. Maecenas non nulla dapibus dui blandit tristique. Pellentesque sed ex vulputate, maximus dui vitae, fermentum diam. Aenean risus justo, dictum ac sollicitudin ut, dapibus a elit. Cras at laoreet turpis. Sed ullamcorper orci ut lectus malesuada cursus. Praesent purus dui, vehicula et mauris at, maximus imperdiet massa. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Phasellus rhoncus, quam sed vehicula aliquet, ligula arcu aliquam ipsum, scelerisque tincidunt eros neque a ipsum. Fusce arcu leo, imperdiet et iaculis quis, vehicula in eros. Donec sagittis tortor et congue posuere. Donec mattis mollis erat eget convallis. Integer sed orci eget mauris blandit egestas vel vel lorem. Etiam sodales consequat felis vel fringilla. Etiam vitae venenatis nisi. Nunc interdum placerat risus id tempus. In rutrum tincidunt sagittis. Sed ligula nulla, tincidunt eu iaculis id, porta at risus. Quisque vitae tellus ultricies, pretium risus at, tempus eros. Duis in est feugiat, consectetur sem et, pretium ante. Etiam vitae eleifend elit. Nullam tempus diam nec felis facilisis aliquet. Sed cursus libero nunc, at dictum elit aliquam posuere. Donec sed elit auctor, eleifend sapien eget, aliquet diam. Nunc tincidunt suscipit dolor, id consectetur neque dapibus in. Quisque lectus sapien, elementum eget lectus sed, maximus efficitur arcu. Nulla ipsum leo, placerat non quam at, aliquet accumsan lectus. Ut ornare ornare sagittis. Proin feugiat suscipit ex, a consectetur lorem ullamcorper sit amet. Mauris ut mi id mauris blandit interdum quis ut mauris. Nam consectetur iaculis tortor, eu placerat eros ultricies nec. Phasellus vitae neque magna. Phasellus auctor ultricies justo at imperdiet. Pellentesque a semper dui, aliquam finibus augue. Nullam scelerisque dolor augue. Curabitur hendrerit.\",\n    \"encrypted_string\": \"Yberz vcfhz qbybe fvg nzrg, pbafrpgrghe nqvcvfpvat ryvg. Hg ng qhv rg ynphf gvapvqhag chyivane np phefhf yvoreb. Fhfcraqvffr frq znhevf bepv. Penf frzcre evfhf fvg nzrg zrghf eubaphf hygevprf. Cenrfrag npphzfna gbegbe iry hean qvpghz ryrvsraq. Anz fncvra znhevf, ibyhgcng rg zntan np, pbathr inevhf ghecvf. Ahyynz ivgnr vcfhz arp sryvf qncvohf inevhf n rtrg hean. Hg frz avou, iruvphyn frq tenivqn frq, rssvpvghe ng avou. Zbeov ihychgngr grzcbe znyrfhnqn. Nyvdhnz fhfpvcvg ardhr zv, va cryyragrfdhr znhevf pbafrdhng fvg nzrg. Ahap ehgehz fncvra ng avou srhtvng ivireen. Qhvf sevatvyyn ahyyn qvnz, np srezraghz ghecvf gvapvqhag nhpgbe. Dhvfdhr ivgnr fncvra bqvb. Vagreqhz rg znyrfhnqn snzrf np nagr vcfhz cevzvf va snhpvohf. Frq beaner, reng iry hyynzpbecre frzcre, yrb zv uraqerevg evfhf, rg zbyrfgvr yberz vcfhz ng yrpghf. Frq fvg nzrg ynphf frq qhv nhpgbe cryyragrfdhr ivgnr np gbegbe. Cryyragrfdhr rtrfgnf znffn rtrg irarangvf snhpvohf. Ahyynz rebf yvoreb, uraqerevg rtrg nagr hg, irfgvohyhz qvpghz zv. Nyvdhnz iry sevatvyyn ynphf. Cenrfrag ynberrg rtrfgnf sryvf vq cergvhz. Znhevf sryvf zv, pbzzbqb iry vzcreqvrg ng, fntvggvf va bqvb. Vagrtre ahyyn sryvf, zbyyvf frq dhnz hg, ryrvsraq ihychgngr gbegbe. Cryyragrfdhr nyvdhnz zntan zrghf, ivgnr qvtavffvz ravz nyvdhnz iry. Phenovghe qvpghz yvoreb cbeggvgbe, npphzfna iryvg hg, ehgehz bepv. Anz cbeggvgbe cergvhz qvtavffvz. Irfgvohyhz iruvphyn vagreqhz rfg hg vnphyvf. Ahyyn iry gvapvqhag yrb, np phefhf yvthyn. Cenrfrag whfgb ryvg, znkvzhf ivgnr nhthr iry, fntvggvf ybobegvf rfg. Irfgvohyhz nagr vcfhz cevzvf va snhpvohf bepv yhpghf rg hygevprf cbfhrer phovyvn phenr; Znrpranf irarangvf, rk rtrg ryrvsraq pbafrpgrghe, ghecvf zrghf qvpghz ahyyn, frq ihychgngr bqvb neph frzcre avfy. Znrpranf rg bepv zv. Cunfryyhf frq gryyhf ng avfy nyvdhrg tenivqn. Cebva iry avou ahap. Znhevf iry ynphf va yvoreb yhpghf chyivane. Irfgvohyhz rhvfzbq, ardhr rh znggvf cbfhrer, nhthr ghecvf iruvphyn avou, aba ynpvavn yberz gryyhf arp whfgb. Va vcfhz yvthyn, zbyyvf ng grzcbe hg, srhtvng aba dhnz. Frq znhevf hean, ibyhgcng fbqnyrf qvtavffvz arp, ybobegvf n ardhr. Nyvdhnz tenivqn, evfhf hg svavohf hygevpvrf, bqvb ghecvf ybobegvf nagr, n znggvf yvthyn gbegbe va nagr. Ivinzhf rtrg znyrfhnqn yberz, iry ivireen yberz. Znhevf cryyragrfdhr ryvg gryyhf. Nyvdhnz hg avfv grzcbe, pbaqvzraghz ryvg fvg nzrg, nyvdhnz bqvb. Shfpr n frz arp ghecvf irfgvohyhz chyivane np dhvf evfhf. Qbarp frq dhnz n znffn ynpvavn rtrfgnf frq vq ryvg. Fhfcraqvffr gevfgvdhr sryvf frq ynphf znkvzhf srezraghz. Qbarp vq gevfgvdhr frz. Pynff ncgrag gnpvgv fbpvbfdh nq yvgben gbedhrag cre pbahovn abfgen, cre vaprcgbf uvzranrbf. Frq va znhevf fvg nzrg zv nyvdhrg gvapvqhag. Cunfryyhf gbegbe avou, npphzfna dhvf ynpvavn rtrg, grzchf ivgnr vcfhz. Nrarna pbafrpgrghe avfv aba hyynzpbecre hygevprf. Yberz vcfhz qbybe fvg nzrg, pbafrpgrghe nqvcvfpvat ryvg. Nyvdhnz iry ravz fbyyvpvghqva, vzcreqvrg ardhr aba, rtrfgnf avfv. Phenovghe znyrfhnqn fntvggvf zrghf rtrg iruvphyn. Zbeov hg yvthyn hg ynphf uraqerevg cbeggvgbe hg ng neph. Ahyyn ivgnr ihychgngr bqvb. Cenrfrag rtrfgnf, qhv vq cynpreng fbqnyrf, zrghf avou cbfhrer ryvg, np cbfhrer yrpghf gbegbe cryyragrfdhr reng. Zbeov fvg nzrg ahyyn arp gryyhf gvapvqhag yhpghf. Vagrtre bepv sryvf, vnphyvf frq fncvra aba, grzchf zbyrfgvr yvthyn. Ahyyn fbyyvpvghqva rssvpvghe znffn, ivgnr cunergen yberz qvpghz fvg nzrg. Nrarna sevatvyyn znyrfhnqn ahap cbfhrer cryyragrfdhr. Dhvfdhr vzcreqvrg, nhthr vzcreqvrg cryyragrfdhr rssvpvghe, fncvra dhnz cbegn yvoreb, ng rhvfzbq neph avou pbzzbqb ryvg. Penf rh gryyhf ng iryvg svavohf eubaphf. Frq srezraghz chyivane avfy, hg tenivqn znffn npphzfna iry. Frq arp cbeggvgbe zntan. Ahyyn zbyrfgvr sryvf rh reng pbzzbqb, grzcbe cynpreng avfy gevfgvdhr. Nyvdhnz reng ibyhgcng. Frq chyivane reng qvnz, np rssvpvghe neph pbathr irarangvf. Va unp unovgnffr cyngrn qvpghzfg. Qhvf phefhf irfgvohyhz irarangvf. Dhvfdhr hg zntan frq chehf cbeggvgbe inevhf. Ahap vagreqhz avou avfv, aba ryrzraghz bepv svavohf iry. Znhevf yvoreb hean, phefhf va frz ng, ynberrg fhfpvcvg zntan. Ahyyn snpvyvfv. Qbarp znkvzhf pbzzbqb ynphf dhvf ynpvavn. Fhfcraqvffr arp ovoraqhz sryvf. Ahyynz hg snhpvohf znhevf. Anz dhvf avfy frq yrpghf inevhf hyynzpbecre rg iry gbegbe. Ahyyn cbeggvgbe bqvb vq pbainyyvf iruvphyn. Ahyyn ynpvavn zrghf np ahap hyynzpbecre, arp znyrfhnqn gryyhf pbzzbqb. Nyvdhnz cbeggvgbe yvoreb ng ihychgngr vzcreqvrg. Phenovghe pbzzbqb ng sryvf arp uraqerevg. Ahap ng rtrfgnf vcfhz. Ahap hyynzpbecre vq znffn np ovoraqhz. Penf rg qncvohf ardhr, va rtrfgnf sryvf. Irfgvohyhz sryvf ghecvf, gvapvqhag np rhvfzbq iry, cbeggvgbe ng qhv. Qbarp znkvzhf rtrfgnf rfg frq ryrzraghz. Nrarna sevatvyyn, qvnz hygevpvrf pbainyyvf beaner, chehf gryyhf iruvphyn yvoreb, np gevfgvdhr ahyyn qhv ng bqvb. Irfgvohyhz nagr vcfhz cevzvf va snhpvohf bepv yhpghf rg hygevprf cbfhrer phovyvn phenr; Ivinzhf whfgb znhevf, pbainyyvf vq ryvg ng, cbegn znkvzhf zntan. Hg frzcre qvtavffvz ynphf, ng srhtvng yvthyn znkvzhf rh. Nrarna rtrg avfy np znffn irfgvohyhz chyivane. Znrpranf zbyrfgvr reng sryvf, va pbzzbqb avou inevhf rh. Znhevf yhpghf, nhthr np phefhf ehgehz, gbegbe zntan snhpvohf qhv, n pbainyyvf nhthr avfy aba znffn. Ahyyn np ibyhgcng nhthr. Ahap ivgnr yvthyn arp yrb vnphyvf pbaqvzraghz rg vq gbegbe. Znhevf rh neph cbfhrer, fhfpvcvg avfv dhvf, cunergen frz. Penf arp irfgvohyhz rk. Qbarp grzcbe pbzzbqb ivireen. Rgvnz znggvf yvthyn dhvf ahap ryrvsraq, iry srhtvng znffn ivireen. Anz iruvphyn qncvohf iryvg. Znhevf pbafrdhng frzcre reng va snhpvohf. Cryyragrfdhr rg ahap ivgnr rk vnphyvf nyvdhrg. Nyvdhnz rhvfzbq hygevprf yrpghf. Znrpranf aba ahyyn qncvohf qhv oynaqvg gevfgvdhr. Cryyragrfdhr frq rk ihychgngr, znkvzhf qhv ivgnr, srezraghz qvnz. Nrarna evfhf whfgb, qvpghz np fbyyvpvghqva hg, qncvohf n ryvg. Penf ng ynberrg ghecvf. Frq hyynzpbecre bepv hg yrpghf znyrfhnqn phefhf. Cenrfrag chehf qhv, iruvphyn rg znhevf ng, znkvzhf vzcreqvrg znffn. Cryyragrfdhr unovgnag zbeov gevfgvdhr frarpghf rg arghf rg znyrfhnqn snzrf np ghecvf rtrfgnf. Cunfryyhf eubaphf, dhnz frq iruvphyn nyvdhrg, yvthyn neph nyvdhnz vcfhz, fpryrevfdhr gvapvqhag rebf ardhr n vcfhz. Shfpr neph yrb, vzcreqvrg rg vnphyvf dhvf, iruvphyn va rebf. Qbarp fntvggvf gbegbe rg pbathr cbfhrer. Qbarp znggvf zbyyvf reng rtrg pbainyyvf. Vagrtre frq bepv rtrg znhevf oynaqvg rtrfgnf iry iry yberz. Rgvnz fbqnyrf pbafrdhng sryvf iry sevatvyyn. Rgvnz ivgnr irarangvf avfv. Ahap vagreqhz cynpreng evfhf vq grzchf. Va ehgehz gvapvqhag fntvggvf. Frq yvthyn ahyyn, gvapvqhag rh vnphyvf vq, cbegn ng evfhf. Dhvfdhr ivgnr gryyhf hygevpvrf, cergvhz evfhf ng, grzchf rebf. Qhvf va rfg srhtvng, pbafrpgrghe frz rg, cergvhz nagr. Rgvnz ivgnr ryrvsraq ryvg. Ahyynz grzchf qvnz arp sryvf snpvyvfvf nyvdhrg. Frq phefhf yvoreb ahap, ng qvpghz ryvg nyvdhnz cbfhrer. Qbarp frq ryvg nhpgbe, ryrvsraq fncvra rtrg, nyvdhrg qvnz. Ahap gvapvqhag fhfpvcvg qbybe, vq pbafrpgrghe ardhr qncvohf va. Dhvfdhr yrpghf fncvra, ryrzraghz rtrg yrpghf frq, znkvzhf rssvpvghe neph. Ahyyn vcfhz yrb, cynpreng aba dhnz ng, nyvdhrg npphzfna yrpghf. Hg beaner beaner fntvggvf. Cebva srhtvng fhfpvcvg rk, n pbafrpgrghe yberz hyynzpbecre fvg nzrg. Znhevf hg zv vq znhevf oynaqvg vagreqhz dhvf hg znhevf. Anz pbafrpgrghe vnphyvf gbegbe, rh cynpreng rebf hygevpvrf arp. Cunfryyhf ivgnr ardhr zntan. Cunfryyhf nhpgbe hygevpvrf whfgb ng vzcreqvrg. Cryyragrfdhr n frzcre qhv, nyvdhnz svavohf nhthr. Ahyynz fpryrevfdhr qbybe nhthr. Phenovghe uraqerevg.\",\n    \"error\": null\n}"
+				}
+			]
+		},
+		{
+			"name": "pig_latin_translate",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/wikis/The_Stone_Breakers/translate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"wikis",
+						"The_Stone_Breakers",
+						"translate"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "pig_latin_translate",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/wikis/The_Stone_Breakers/translate",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"wikis",
+								"The_Stone_Breakers",
+								"translate"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "0"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-Download-Options",
+							"value": "noopen"
+						},
+						{
+							"key": "X-Permitted-Cross-Domain-Policies",
+							"value": "none"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "strict-origin-when-cross-origin"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"25d8ce38938b9d9b97dc9aa35281bb2f\""
+						},
+						{
+							"key": "Cache-Control",
+							"value": "max-age=0, private, must-revalidate"
+						},
+						{
+							"key": "X-Request-Id",
+							"value": "df97ce30-0cc9-4092-9d75-5431182d1411"
+						},
+						{
+							"key": "X-Runtime",
+							"value": "2.014907"
+						},
+						{
+							"key": "Server-Timing",
+							"value": "start_processing.action_controller;dur=0.16, process_action.action_controller;dur=1997.26"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"original_article\": \"\\n The Stone Breakers (French: Les Casseurs de pierres) also known as Stonebreakers  was an 1849 oil-on-canvas painting by the French painter Gustave Courbet. The painting was an example of realism and it portrayed an old man and a young man, both breaking rocks. The two men were meant to represent common workers doing menial tasks. They are shown in tattered clothing and their faces are turned away from the viewer. \\n The painting was displayed at the 1850 Paris Salon and it was criticized by many reviewers for its depiction of a subject which was not considered proper for high art. Additionally some critics disliked the application of very thick paint, and the poor lighting in the image. Conversely, social theorist Pierre-Joseph Proudhon praised the work and saw it as a successful socialist painting. He called the composition \\\"a masterpiece in its genre\\\".\\n Courbet produced two versions of the painting. The version which was displayed at the 1850 Paris Salon was in the collection of the Dresden Museum. At the time of its acquisition by the museum, the painting was referred to as \\\"Courbet's monumental masterpiece\\\". In February 1945, Dresden was bombed by the Allies of World War II. The Germans decided to relocate the painting but it was subsequently destroyed during a bombing raid while being relocated by truck to a safe storage. The second version, a reversed image, survived the war and is in the Oskar Reinhart Collection in Winterthur.\\n Gustave Courbet created works of art in the genre of realism and he described it as \\\"my way of seeing\\\".[1] He began work on The Stone Breakers painting in November 1849 after seeing two laborers breaking rocks along the road. Near the end of November 1849 Courbet sent a letter to his friends Francis and Marie Wey describing how he found inspiration for the painting:[1]\\n \\nI had taken our carriage to go to the Château of Saint-Denis to paint a landscape. Near Maisières I stopped to consider two men breaking stones on the road. One rarely encounters the most complete expression of poverty, so right there on the spot I got an idea for a painting. I made a date to meet them at my studio the following morning. And since then I have painted my picture. Courbet went on to describe the clothing of the two peasants as representative of their low station. He also had sympathy for the two stone breakers and in letters he indicated that he was aware of the separation of classes. In describing the older worker he used the French word courbé (bent), which may have been a pun on his own last name Courbet.[1]\\n The Stone Breakers was first exhibited at the Paris Salon of 1850–1851. As a work of realism the subject matter addressed a scene of everyday life. The painting was meant to depict the hard labor that poor citizens experienced.[2] Courbet created two versions of the painting.[3] \\n The second version of the painting is a mirror image and it is in the Oskar Reinhart Collection in Winterthur. Courbet signed it in the lower right corner. The second version is smaller, measuring 56 cm × 85 cm (22 in × 33 in), and it is darker.[4] \\n In c. 1864 Courbet created a drawing of the younger person portrayed in The Stone Breakers. The drawing is titled, A young stone breaker. It is a black crayon drawing on white paper and it is 29.5 cm × 21.1 cm (11.6 in × 8.3 in). The work is in the Ashmolean Museum at the University of Oxford.[5] The National Gallery of Art in Washington D.C., also has a similar image of the young stone breaker. The image is attributed to Firmin Gillot and Courbet and it is from the René Huyghe collection. The dimensions of the work are 30.1 cm × 23.1 cm (11.9 in × 9.1 in).[6]\\n In a letter Courbet described the painting as being the same size as his other painting (A Burial at Ornans) which was also displayed at the Paris Salon. The size of that painting was 1.5 m × 2.6 m (4.9 ft × 8.5 ft).[3] The painting is in the realism style, and depicted two peasants (a young man and an old man) breaking rocks.[1] The men are shown as two road laborers in unclean clothing. They wear wooden clogs which the press of the day satirized.[7] The men in tattered clothing represented the oppressed workers who toiled breaking rocks. The painting might have caused viewers to feel uneasy because the men had tools and rocks which may be considered weapons. Courbet may have also encouraged the uneasiness by not showing the faces of the two men.[8] The men's faces are likely not shown because they serve as representatives of the common workers. The figures in the painting perform repetitive menial labor and they demonstrate the injustice of peasant life.[3] \\n \\nCourbet described the painting by saying:[1].mw-parser-output .templatequote{overflow:hidden;margin:1em 0;padding:0 40px}.mw-parser-output .templatequote .templatequotecite{line-height:1.5em;text-align:left;padding-left:1.6em;margin-top:0} On one side is an old man of seventy, bent over his work, his sledgehammer raised, his skin parched by the sun, his head shaded by a straw hat; his trousers of coarse material, are completely patched; and in his cracked sabots you can see his bare heels sticking out of socks that were once blue. On the other side is a young man with swarthy skin, his head covered with dust; his disgusting shirt all in tatters reveals his arms and parts of his back; a leather suspender holds up what is left of his trousers, and his mud caked leather boots show gaping holes at every side. Other artists like Jules Breton portrayed the plight of the rural poor. Courbet's peasants in The Stone Breakers are not idealized like those in works such as Breton's 1854 painting, The Gleaners.[9]\\n Before the Paris Salon French poet Max Buchon viewed the painting and described the two men as \\\"the dawn and twilight of modern galley-slave existence\\\". After the 1850 Paris Salon French diplomat Louis de Geofroy described the sentiment by saying, \\\"art that is made for everyone should be what everyone sees.\\\" L'Illustration also published a review of the painting from the Paris Salon and they described it as, \\\"a subject with very little appeal\\\". They went on to describe the painting as not treating the subjects with importance and not having appropriate lighting. Fabien Pillet reviewed the painting for Le Moniteur Universel and he stated that Courbet should be counted among the painters \\\"who reveal a marked predilection for the least civilized of rustic customs and habits\\\".[1] Some art critics made remarks about the careless thick paint applied by palette knife and others thought the paint thickness conveyed ruggedness. Many critics conveyed the idea that the subject of the painting was not proper for high art.[3]\\n French social theorist Pierre-Joseph Proudhon called the painting \\\"a masterpiece in its genre\\\". He saw the painting as \\\"a visual condemnation of capitalism and potential for greed\\\". Courbet stated that the subject had to do with his interest in \\\"real and existing things\\\".[2] He went on to say that it was a successful \\\"socialist painting\\\".[1] Art historian Sheila D. Muller has compared the painting's impact with that of Passing Mother's Grave because of the \\\"monumental treatment of the commonplace\\\".[10] In 2009, art historian Kathryn Calley Galitz said, \\\"The Stone Breakers ... challenged convention by rendering scenes from daily life on the large scale previously reserved for history painting and in an emphatically realistic style.\\\"[11]\\n Before World War II the one version of the painting was housed at the Dresden Museum.[12] The painting was acquired by the museum c. 1882 and it was referred to as \\\"Courbet's monumental masterpiece.\\\"[13] During World War II, from 13 to 15 February 1945, the Allies continuously bombed the city of Dresden, Germany. German troops hastily loaded artworks from Dresden's galleries and museums onto trucks. The Stone Breakers was destroyed, along with 153 other paintings, when a transport vehicle moving the pictures to the Königstein Fortress, near Dresden, was bombed by Allied forces.[11]\\n\",\n    \"translated_article\": \"Ethay Onestay Eakersbray ench:(Fray Eslay Asseurscay eday ierres)pay alsoway ownknay asway Onebreakersstay asway anway 1849ay oil-on-canvasway aintingpay byay ethay Enchfray ainterpay Ustavegay Ourbet.cay Ethay aintingpay asway anway exampleway ofway ealismray andway itway ortrayedpay anway oldway anmay andway away oungyay an,may othbay eakingbray ocks.ray Ethay otway enmay ereway eantmay otay epresentray ommoncay orkersway oingday enialmay asks.tay Eythay areway ownshay inway atteredtay othingclay andway eirthay acesfay areway urnedtay awayway omfray ethay iewer.vay Ethay aintingpay asway isplayedday atway ethay 1850ay Arispay Alonsay andway itway asway iticizedcray byay anymay eviewersray orfay itsway epictionday ofway away ubjectsay ichwhay asway otnay onsideredcay operpray orfay ighhay art.way Additionallyway omesay iticscray islikedday ethay applicationway ofway eryvay ickthay aint,pay andway ethay oorpay ightinglay inway ethay image.way Onversely,cay ocialsay eoristthay Ierre-josephpay Oudhonpray aisedpray ethay orkway andway awsay itway asway away uccessfulsay ocialistsay ainting.pay Ehay alledcay ethay ompositioncay a\\\"ay asterpiecemay inway itsway enre\\\".gay Ourbetcay oducedpray otway ersionsvay ofway ethay ainting.pay Ethay ersionvay ichwhay asway isplayedday atway ethay 1850ay Arispay Alonsay asway inway ethay ollectioncay ofway ethay Esdendray Useum.may Atway ethay imetay ofway itsway acquisitionway byay ethay useum,may ethay aintingpay asway eferredray otay asway ourbet's\\\"Cay onumentalmay asterpiece\\\".may Inway Ebruaryfay 1945,ay Esdendray asway ombedbay byay ethay Alliesway ofway Orldway Arway II.way Ethay Ermansgay ecidedday otay elocateray ethay aintingpay utbay itway asway ubsequentlysay estroyedday uringday away ombingbay aidray ilewhay eingbay elocatedray byay ucktray otay away afesay orage.stay Ethay econdsay ersion,vay away eversedray image,way urvivedsay ethay arway andway isway inway ethay Oskarway Einhartray Ollectioncay inway Interthur.way Ustavegay Ourbetcay eatedcray orksway ofway artway inway ethay enregay ofway ealismray andway ehay escribedday itway asway \\\"myay ayway ofway eeing\\\".[1]say Ehay eganbay orkway onway Ethay Onestay Eakersbray aintingpay inway Ovembernay 1849ay afterway eeingsay otway aborerslay eakingbray ocksray alongway ethay oad.ray Earnay ethay endway ofway Ovembernay 1849ay Ourbetcay entsay away etterlay otay ishay iendsfray Ancisfray andway Ariemay Eyway escribingday owhay ehay oundfay inspirationway orfay ethay ainting:[1]pay Iway adhay akentay ourway arriagecay otay ogay otay ethay Eauchâtay ofway Aint-denissay otay aintpay away andscape.lay Earnay Aisièresmay Iway oppedstay otay onsidercay otway enmay eakingbray onesstay onway ethay oad.ray Oneway arelyray encountersway ethay ostmay ompletecay expressionway ofway overty,pay osay ightray erethay onway ethay otspay Iway otgay anway ideaway orfay away ainting.pay Iway ademay away ateday otay eetmay emthay atway myay udiostay ethay ollowingfay orning.may Andway incesay enthay Iway avehay aintedpay myay icture.pay Ourbetcay entway onway otay escribeday ethay othingclay ofway ethay otway easantspay asway epresentativeray ofway eirthay owlay ation.stay Ehay alsoway adhay athysympay orfay ethay otway onestay eakersbray andway inway etterslay ehay indicatedway atthay ehay asway awareway ofway ethay eparationsay ofway asses.clay Inway escribingday ethay olderway orkerway ehay usedway ethay Enchfray ordway ourbécay ent),(bay ichwhay aymay avehay eenbay away unpay onway ishay ownway astlay amenay Ourbet.[1]cay Ethay Onestay Eakersbray asway irstfay exhibitedway atway ethay Arispay Alonsay ofway 1850–1851.ay Asway away orkway ofway ealismray ethay ubjectsay attermay addressedway away enescay ofway everydayway ife.lay Ethay aintingpay asway eantmay otay epictday ethay ardhay aborlay atthay oorpay itizenscay experienced.[2]way Ourbetcay eatedcray otway ersionsvay ofway ethay ainting.[3]pay Ethay econdsay ersionvay ofway ethay aintingpay isway away irrormay imageway andway itway isway inway ethay Oskarway Einhartray Ollectioncay inway Interthur.way Ourbetcay ignedsay itway inway ethay owerlay ightray orner.cay Ethay econdsay ersionvay isway aller,smay easuringmay 56 cmay × 85 cmay in(22 ay in),× 33 ay andway itway isway arker.[4]day Inway c.ay 1864ay Ourbetcay eatedcray away awingdray ofway ethay oungeryay ersonpay ortrayedpay inway Ethay Onestay Eakers.bray Ethay awingdray isway itled,tay Away oungyay onestay eaker.bray Itway isway away ackblay ayoncray awingdray onway itewhay aperpay andway itway isway 29.5 cmay × 21.1 cmay in(11.6 ay in).× 8.3 ay Ethay orkway isway inway ethay Ashmoleanway Useummay atway ethay Universityway ofway Oxford.[5]way Ethay Ationalnay Allerygay ofway Artway inway Ashingtonway D.c.,ay alsoway ashay away imilarsay imageway ofway ethay oungyay onestay eaker.bray Ethay imageway isway attributedway otay Irminfay Illotgay andway Ourbetcay andway itway isway omfray ethay Enéray Uyghehay ollection.cay Ethay imensionsday ofway ethay orkway areway 30.1 cmay × 23.1 cmay in(11.9 ay in).[6]× 9.1 ay Inway away etterlay Ourbetcay escribedday ethay aintingpay asway eingbay ethay amesay izesay asway ishay otherway aintingpay A(ay Urialbay atway Ornans)way ichwhay asway alsoway isplayedday atway ethay Arispay Alon.say Ethay izesay ofway atthay aintingpay asway 1.5 may × 2.6 may (4.9 ftay × 8.5 ft).[3]ay Ethay aintingpay isway inway ethay ealismray e,stylay andway epictedday otway easantspay a(ay oungyay anmay andway anway oldway an)may eakingbray ocks.[1]ray Ethay enmay areway ownshay asway otway oadray aborerslay inway uncleanway othing.clay Eythay earway oodenway ogsclay ichwhay ethay esspray ofway ethay ayday atirized.[7]say Ethay enmay inway atteredtay othingclay epresentedray ethay oppressedway orkersway owhay oiledtay eakingbray ocks.ray Ethay aintingpay ightmay avehay ausedcay iewersvay otay eelfay uneasyway ecausebay ethay enmay adhay oolstay andway ocksray ichwhay aymay ebay onsideredcay eapons.way Ourbetcay aymay avehay alsoway encouragedway ethay uneasinessway byay otnay owingshay ethay acesfay ofway ethay otway en.[8]may Ethay en'smay acesfay areway ikelylay otnay ownshay ecausebay eythay ervesay asway epresentativesray ofway ethay ommoncay orkers.way Ethay iguresfay inway ethay aintingpay erformpay epetitiveray enialmay aborlay andway eythay emonstrateday ethay injusticeway ofway easantpay ife.[3]lay Ourbetcay escribedday ethay aintingpay byay aying:[1].mw-parser-outputsay emplatequote{overflow:hidden;margin:1em.tay adding:00;pay arser-output40px}.mw-pay emplatequote.tay emplatequotecite{line-height:1.5em;text-align:left;padding-left:1.6em;margin-top:0}.tay Onway oneway idesay isway anway oldway anmay ofway eventy,say entbay overway ishay ork,way ishay edgehammerslay aised,ray ishay inskay archedpay byay ethay un,say ishay eadhay adedshay byay away awstray at;hay ishay ouserstray ofway oarsecay aterial,may areway ompletelycay atched;pay andway inway ishay ackedcray abotssay ouyay ancay eesay ishay arebay eelshay ickingstay outway ofway ockssay atthay ereway onceway ue.blay Onway ethay otherway idesay isway away oungyay anmay ithway arthysway in,skay ishay eadhay overedcay ithway ust;day ishay isgustingday irtshay allway inway atterstay evealsray ishay armsway andway artspay ofway ishay ack;bay away eatherlay uspendersay oldshay upway atwhay isway eftlay ofway ishay ousers,tray andway ishay udmay akedcay eatherlay ootsbay owshay apinggay oleshay atway everyway ide.say Otherway artistsway ikelay Ulesjay Etonbray ortrayedpay ethay ightplay ofway ethay uralray oor.pay Ourbet'scay easantspay inway Ethay Onestay Eakersbray areway otnay idealizedway ikelay osethay inway orksway uchsay asway Eton'sbray 1854ay ainting,pay Ethay Eaners.[9]glay Eforebay ethay Arispay Alonsay Enchfray oetpay Axmay Uchonbay iewedvay ethay aintingpay andway escribedday ethay otway enmay asway e\\\"thay awnday andway ilighttway ofway odernmay alley-slavegay existence\\\".way Afterway ethay 1850ay Arispay Alonsay Enchfray iplomatday Ouislay eday Eofroygay escribedday ethay entimentsay byay aying,say art\\\"ay atthay isway ademay orfay everyoneway ouldshay ebay atwhay everyoneway ees.\\\"say Illustrationl'ay alsoway ublishedpay away eviewray ofway ethay aintingpay omfray ethay Arispay Alonsay andway eythay escribedday itway as,way a\\\"ay ubjectsay ithway eryvay ittlelay appeal\\\".way Eythay entway onway otay escribeday ethay aintingpay asway otnay eatingtray ethay ubjectssay ithway importanceway andway otnay avinghay appropriateway ighting.lay Abienfay Illetpay eviewedray ethay aintingpay orfay Elay Oniteurmay Universelway andway ehay atedstay atthay Ourbetcay ouldshay ebay ountedcay amongway ethay ainterspay o\\\"whay evealray away arkedmay edilectionpray orfay ethay eastlay ivilizedcay ofway usticray ustomscay andway abits\\\".[1]hay Omesay artway iticscray ademay emarksray aboutway ethay arelesscay ickthay aintpay appliedway byay alettepay ifeknay andway othersway oughtthay ethay aintpay icknessthay onveyedcay uggedness.ray Anymay iticscray onveyedcay ethay ideaway atthay ethay ubjectsay ofway ethay aintingpay asway otnay operpray orfay ighhay art.[3]way Enchfray ocialsay eoristthay Ierre-josephpay Oudhonpray alledcay ethay aintingpay a\\\"ay asterpiecemay inway itsway enre\\\".gay Ehay awsay ethay aintingpay asway a\\\"ay isualvay ondemnationcay ofway apitalismcay andway otentialpay orfay eed\\\".gray Ourbetcay atedstay atthay ethay ubjectsay adhay otay oday ithway ishay interestway inway eal\\\"ray andway existingway ings\\\".[2]thay Ehay entway onway otay aysay atthay itway asway away uccessfulsay ocialist\\\"say ainting\\\".[1]pay Artway istorianhay Eilashay D.ay Ullermay ashay omparedcay ethay ainting'spay impactway ithway atthay ofway Assingpay Other'smay Avegray ecausebay ofway ethay onumental\\\"may eatmenttray ofway ethay ommonplace\\\".[10]cay Inway 2009,ay artway istorianhay Athrynkay Alleycay Alitzgay aid,say e\\\"Thay Onestay Eakers ...bray allengedchay onventioncay byay enderingray enesscay omfray ailyday ifelay onway ethay argelay alescay eviouslypray eservedray orfay istoryhay aintingpay andway inway anway emphaticallyway ealisticray e.\\\"[11]stylay Eforebay Orldway Arway IIway ethay oneway ersionvay ofway ethay aintingpay asway ousedhay atway ethay Esdendray Useum.[12]may Ethay aintingpay asway acquiredway byay ethay useummay c.ay 1882ay andway itway asway eferredray otay asway ourbet's\\\"Cay onumentalmay asterpiece.\\\"[13]may Uringday Orldway Arway II,way omfray 13ay otay 15ay Ebruaryfay 1945,ay ethay Alliesway ontinuouslycay ombedbay ethay itycay ofway Esden,dray Ermany.gay Ermangay oopstray astilyhay oadedlay artworksway omfray Esden'sdray alleriesgay andway useumsmay ontoway ucks.tray Ethay Onestay Eakersbray asway estroyed,day alongway ithway 153ay otherway aintings,pay enwhay away ansporttray ehiclevay ovingmay ethay icturespay otay ethay Igsteinkönay Ortress,fay earnay Esden,dray asway ombedbay byay Alliedway orces.[11]fay\"\n}"
+				}
+			]
+		}
+	]
+}

@@ -1,0 +1,7 @@
+/*
+ * Application stylesheet manifest. Sprockets concatenates every .css file in
+ * this directory into /assets/application.css; see app/assets/config/manifest.js.
+ *
+ *= require_tree .
+ *= require_self
+ */
