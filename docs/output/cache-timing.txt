@@ -1,0 +1,13 @@
+# Wikipedia article cache: cold vs warm
+# Regenerate with: docs/capture_api.sh after restarting the server (the cache is in-process).
+# Date: 2026-09-25T10:33:14Z
+
+request         bytes    seconds
+#1              52500   3.186100
+#2              52500   0.006994
+#3              52500   0.006712
+#4              52500   0.007131
+#5              52500   0.006668
+
+# Request #1 is a cold cache: HTTPS round trip to en.wikipedia.org, HTML parse,
+# then a word-by-word translation of the whole article. #2 onward are cache hits.

@@ -1,0 +1,46 @@
+# Captured API transcript
+# Regenerate with: docs/capture_api.sh   (app on http://127.0.0.1:8710)
+# Date: 2026-09-25T10:33:10Z
+
+$ curl -i -X POST $HOST/api/v1/encryptions/rot13 -d {"original_string":"Hello, World!"}
+HTTP/1.1 200 OK
+Content-Type: application/json; charset=utf-8
+
+{"original_string":"Hello, World!","encrypted_string":"Uryyb, Jbeyq!","error":null}
+
+$ ... -d {}                            # original_string absent
+HTTP/1.1 422 Unprocessable Entity
+Content-Type: application/json; charset=utf-8
+
+{"original_string":null,"encrypted_string":null,"error":"Missing parameter or its value: original_string"}
+
+$ ... -d {"original_string":12345}     # non-string: refused, nothing internal leaked
+HTTP/1.1 422 Unprocessable Entity
+Content-Type: application/json; charset=utf-8
+
+{"original_string":null,"encrypted_string":null,"error":"Missing parameter or its value: original_string"}
+
+$ ... --data-binary ""                 # empty body
+HTTP/1.1 422 Unprocessable Entity
+Content-Type: application/json; charset=utf-8
+
+{"error":"Request body cannot be empty"}
+
+$ ... -d {not json                     # malformed body
+HTTP/1.1 422 Unprocessable Entity
+Content-Type: application/json; charset=utf-8
+
+{"error":"Request body cannot be empty"}
+
+$ curl $HOST/wiki/Pig_Latin.json       # first paragraph, original and translated
+{
+  "error_message": "",
+  "original": "Pig Latin is a language game or cant in which words are altered by adding a fabricated suffix or by moving the onset or initial consonant or consonant cluster of a word to the end of the word and adding a vocalic syllable (usually -ay or /eɪ/) to create such a suffix.[1] For example, in English, \"she does not know\" would become \"eshay oesday otnay owknay\".",
+  "translated": "Igpay Atinlay isway away anguagelay amegay orway antcay inway ichwhay ordsway areway alteredway ybay addingway away abricatedfay uffixsay orway ybay ovingmay ethay onsetway orway initialway onsonantcay orway onsonantcay usterclay ofway away ordway otay ethay endway ofway ethay ordway andway addingway away ocalicvay yllablesay (usuallyway -ayway orway /eɪway/) otay eatecray uchsay away uffixsay.[1] Orfay exampleway, inway Englishway, \"eshay oesday otnay owknay\" ouldway ecomebay \"eshayway oesdayway otnayway owknayway\"."
+}
+
+$ curl -o /dev/null -w "%{http_code}" $HOST/wiki/No_Such_Article_ZZZ_999.json   # upstream 404 -> 502
+502
+
+$ curl -o /dev/null -w '%{http_code} %{content_type}' "$HOST/wiki?wiki_url=Rock+%27n%27+roll"   # title with spaces and quotes
+200 text/html; charset=utf-8
