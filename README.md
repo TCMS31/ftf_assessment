@@ -1,147 +1,106 @@
-# Fund That Flip — Ruby on Rails assessment
+# Pig Latin, ROT13, and multiplication without `*`
 
-A three-part Rails take-home. It exposes a JSON endpoint that ROT13-encrypts a string
-and records it, a web page that fetches a Wikipedia article and renders it beside a
-Pig Latin translation, and a small library that implements integer `multiply` and
-`power` from addition alone. There is no login, no user model and no background
-worker — the whole app is three features and the plumbing they need.
+A Rails 7.0 assessment built around three unrelated exercises: a JSON endpoint that
+ROT13-encrypts a string and records the pair in PostgreSQL, a page that fetches a
+Wikipedia article and renders it beside a Pig Latin translation, and a library that
+implements integer `multiply` and `power` from addition alone. No login, no user model,
+no background worker.
 
-## Screenshots
+`ftf` is initials. They survive as the Rails module name (`FtfAssessment`), the database
+names and `FTF_ASSESSMENT_DATABASE_PASSWORD`, and nothing in the code depends on what
+they stand for.
 
-Captured with Playwright at 1440x900 against `bin/rails server` (on port 8710 here, 3000
-by default); [`docs/capture_api.sh`](docs/capture_api.sh) regenerates the text captures.
+## The three exercises
 
-**Article and translation, side by side** — `/wiki/Pig_Latin`. The article documents
-its own expected output (`"she does not know"` → `"eshay oesday otnay owknay"`), which
-the right-hand column reproduces exactly.
+| Exercise | Where it lives | How to see it |
+| --- | --- | --- |
+| ROT13 a string, persist original + encrypted | `app/lib/ciphers/`, `app/services/encryptions/`, `app/controllers/api/v1/` | `POST /api/v1/encryptions/rot13` |
+| Wikipedia article beside its Pig Latin translation | `app/lib/pig_latin/`, `app/clients/`, `app/services/translations/` | `GET /wiki/Pig_Latin` |
+| `multiply` and `power` with no `*` and no `**` | `lib/arithmetic_operations.rb` | `bundle exec rake benchmark:arithmetic` |
 
-![Pig Latin article translated](docs/screenshots/translation-pig-latin.png)
+The layering is the same in all three. `app/lib` is plain Ruby — no Rails, no I/O, no
+database — which is why it carries the densest tests. `app/clients` holds the only class
+that opens a socket. `app/services` orchestrates and returns a `ServiceResult` (frozen,
+answers `success?`, carries the HTTP status). Controllers do HTTP and nothing else.
+`spec/` mirrors that tree directory for directory.
 
-**A longer article** — `/wiki/Ruby_(programming_language)`.
+## The page
 
-![Ruby article translated](docs/screenshots/translation-ruby.png)
+Captured at 1440x900 against `bin/rails server`. `docs/capture_api.sh` regenerates the
+text captures in [`docs/output/`](docs/output).
 
-**A title Wikipedia does not have** — the failure is inline and says nothing about
-internal URLs or exception classes.
+`/wiki/Pig_Latin`, 26 paragraphs each side. The article states its own expected output —
+`"she does not know"` becomes `"eshay oesday otnay owknay"` — and the right-hand column
+reproduces that phrase exactly, punctuation and quotes in place.
 
-![Unknown article error state](docs/screenshots/error-unknown-article.png)
+![The Pig Latin article translated, original and translation side by side](docs/screenshots/translation-pig-latin.png)
 
-### Captured output
+`/wiki/Ruby_(programming_language)`, a longer article at 63 paragraphs. A title with
+parentheses is URL-encoded before it reaches Wikipedia.
 
-Full transcripts live in [`docs/output/`](docs/output). Abridged:
+![The Ruby article translated](docs/screenshots/translation-ruby.png)
 
-```
-$ curl -i -X POST $HOST/api/v1/encryptions/rot13 -d {"original_string":"Hello, World!"}
-HTTP/1.1 200 OK
-Content-Type: application/json; charset=utf-8
+A title Wikipedia does not have. The failure is inline and mentions no URL, exception
+class or status code.
 
-{"original_string":"Hello, World!","encrypted_string":"Uryyb, Jbeyq!","error":null}
+![The error state for an unknown article title](docs/screenshots/error-unknown-article.png)
 
-$ ... -d {"original_string":12345}     # non-string: refused, nothing internal leaked
-HTTP/1.1 422 Unprocessable Entity
-Content-Type: application/json; charset=utf-8
+## What happens on GET /wiki/:title
 
-{"original_string":null,"encrypted_string":null,"error":"Missing parameter or its value: original_string"}
-```
-
-Article cache, cold versus warm (`docs/output/cache-timing.txt`, same article five times
-after a server restart):
-
-```
-request         bytes    seconds
-#1              52500   3.186100
-#2              52500   0.006994
-#3              52500   0.006712
-#4              52500   0.007131
-#5              52500   0.006668
-```
-
-## Architecture
-
-Four layers, dependencies pointing inward. Nothing in `app/lib` knows about Rails,
-HTTP or the database, which is why it is the part with the densest tests.
-
-```mermaid
-flowchart TD
-    subgraph HTTP["HTTP layer — app/controllers"]
-        WC["WikisController<br/>HTML + JSON"]
-        AC["Api::V1::EncryptionsController"]
-        AB["Api::BaseController<br/>generic error envelope"]
-    end
-
-    subgraph SVC["Orchestration — app/services"]
-        PLS["Translations::PigLatinService<br/>fetch + translate + cache"]
-        ESS["Encryptions::EncryptStringService<br/>validate + encrypt + persist"]
-        SR["ServiceResult"]
-    end
-
-    subgraph DOM["Pure domain — app/lib"]
-        TR["PigLatin::Translator"]
-        REG["Ciphers::Registry"]
-        R13["Ciphers::Rot13"]
-        AO["ArithmeticOperations<br/>lib/"]
-    end
-
-    subgraph IO["Outbound + storage"]
-        WCL["WikipediaClient<br/>app/clients"]
-        CACHE[("Rails.cache")]
-        DB[("PostgreSQL<br/>string_encryptions")]
-        WIKI(["en.wikipedia.org"])
-    end
-
-    WC --> PLS
-    AC --> AB
-    AC --> ESS
-    PLS --> SR
-    ESS --> SR
-    PLS --> TR
-    PLS --> WCL
-    PLS --> CACHE
-    ESS --> REG
-    REG --> R13
-    ESS --> DB
-    WCL --> WIKI
-```
-
-## Workflow
-
-The translation request, which is the only flow with more than one moving part.
+The only flow in the app with more than one moving part.
 
 ```mermaid
 sequenceDiagram
     autonumber
     actor User
     participant C as WikisController
-    participant S as PigLatinService
+    participant S as Translations::PigLatinService
     participant K as Rails.cache
     participant W as WikipediaClient
     participant T as PigLatin::Translator
-    participant V as translate.html.erb
 
     User->>C: GET /wiki/Pig_Latin
     C->>S: call(article_title:)
-    S->>K: fetch(sha256(title))
-    alt cache hit
-        K-->>S: paragraphs + translation
-    else cache miss
+    S->>S: strip, spaces to underscores, SHA-256 the title
+    S->>K: fetch(key, expires_in WIKIPEDIA_CACHE_TTL_SECONDS)
+    alt cached
+        K-->>S: paragraphs and translation
+    else not cached
         S->>W: article_paragraphs(title)
-        W->>W: url_encode title, 3s open / 5s read timeout
+        W->>W: url_encode the title, 3s open and 5s read timeout
         alt Wikipedia answers 200
-            W-->>S: paragraphs
-            S->>T: translate(paragraph) per paragraph
+            W-->>S: paragraph texts
+            S->>T: translate(paragraph), one call per paragraph
             T-->>S: translated paragraphs
-            S->>K: store for WIKIPEDIA_CACHE_TTL_SECONDS
+            S->>K: store the pair
         else transport error or non-200
             W-->>S: raise FetchError
-            S->>S: log detail, build failure ServiceResult (502)
+            S->>S: log the detail, build a 502 failure result
         end
     end
     S-->>C: ServiceResult
-    C->>V: render (or JSON for .json)
-    V-->>User: two columns, or an inline error
+    C-->>User: two columns, or an inline error
 ```
 
-## Quickstart
+The expensive part is the round trip plus a word-by-word pass over a 50 KB article, and
+both are deterministic for a given title, so the *pair* is cached together. Failures are
+never cached — `Rails.cache.fetch` only stores the block's value, and a failed fetch
+raises out of the block — so a transient outage cannot pin an error page for an hour.
+Measured on the same article five times after a server restart
+([`docs/output/cache-timing.txt`](docs/output/cache-timing.txt)):
+
+```
+request         bytes    seconds
+#1              52500   3.186100    cold
+#2              52500   0.006994
+#5              52500   0.006668
+```
+
+The client's 3s open and 5s read timeouts bound a request at 8 seconds rather than the
+60 + 60 that `Net::HTTP` defaults to, and `WikipediaClient::TRANSPORT_ERRORS` collapses
+DNS, TLS, refused-connection and timeout failures into one `FetchError` for callers.
+
+## Running it
 
 ```bash
 # Ruby 3.1.3 and a running PostgreSQL are the only prerequisites.
@@ -150,51 +109,28 @@ bin/rails db:prepare
 bin/rails server            # http://localhost:3000
 ```
 
-Then open <http://localhost:3000>, type an article title, and press Translate.
+Open <http://localhost:3000>, type an article title, press Translate.
+
+```bash
+bundle exec rspec                       # 101 examples, 0 failures
+bundle exec rubocop                     # 53 files inspected, no offenses detected
+bundle exec rake benchmark:arithmetic
+docs/capture_api.sh                     # regenerates docs/output against a running server
+```
+
+`spec/rails_helper.rb` calls `WebMock.disable_net_connect!(allow_localhost: false)`
+before every example, so no test can reach the network. The suite does need a PostgreSQL
+that the `test` entry in `config/database.yml` can reach — `bin/rails db:prepare` creates
+it.
 
 With Docker instead:
 
 ```bash
-echo "SECRET_KEY_BASE=$(bin/rails secret)" > .env   # compose reads .env; it is gitignored
+echo "SECRET_KEY_BASE=$(bin/rails secret)" > .env   # compose reads .env, which is gitignored
 docker compose up --build                            # http://localhost:8710
 ```
 
-## Configuration
-
-Every variable the app reads. All are optional in development; `SECRET_KEY_BASE` and
-`DATABASE_URL` are required in production.
-
-| Name | Required | Default | Purpose |
-| --- | --- | --- | --- |
-| `DATABASE_URL` | production | from `config/database.yml` | PostgreSQL connection string. Overrides the YAML when set. |
-| `FTF_ASSESSMENT_DATABASE_PASSWORD` | production (if not using `DATABASE_URL`) | none | Password for the `ftf_assessment` production role. |
-| `SECRET_KEY_BASE` | production | none | Rails signing key. `docker compose` refuses to start without it. |
-| `RAILS_MAX_THREADS` | no | `5` | Puma threads and the ActiveRecord pool size. |
-| `RAILS_SERVE_STATIC_FILES` | no | unset | Serve `public/` from Rails; set in the container image. |
-| `RAILS_LOG_TO_STDOUT` | no | unset | Log to stdout instead of `log/production.log`. |
-| `RAILS_FORCE_SSL` | no | unset | Redirect to HTTPS and set HSTS in production. |
-| `WIKIPEDIA_BASE_URL` | no | `https://en.wikipedia.org/wiki/` | Article source. Point at a mirror to work offline. |
-| `WIKIPEDIA_OPEN_TIMEOUT` | no | `3` | Seconds to wait for the TCP/TLS handshake. |
-| `WIKIPEDIA_READ_TIMEOUT` | no | `5` | Seconds to wait for the article body. |
-| `WIKIPEDIA_CACHE_TTL_SECONDS` | no | `3600` | How long a fetched + translated article is reused. |
-| `MAX_ENCRYPTION_BYTES` | no | `1048576` | Ceiling on the ROT13 request body read. |
-| `CACHE_SIZE_BYTES` | no | `67108864` | Production in-process cache size. |
-| `POSTGRES_PASSWORD` | no | `ftf_assessment_dev` | Compose-only: password for the bundled `db` service. |
-
-## Development
-
-```bash
-bundle exec rspec                   # 101 examples; no network, no fixtures required
-bundle exec rubocop                 # 53 files, zero offences
-bundle exec rake benchmark:arithmetic
-docs/capture_api.sh                 # regenerate docs/output/ against a running server
-```
-
-The suite blocks outbound HTTP via WebMock, so it runs on a plane. It needs a
-PostgreSQL the `test` entry in `config/database.yml` can reach; `bin/rails db:prepare`
-creates it.
-
-### API
+## The API
 
 ```
 POST /api/v1/encryptions/rot13
@@ -208,120 +144,94 @@ Content-Type: application/json
 
 ```
 GET /wiki/:title           HTML, two columns
-GET /wiki?wiki_url=:title  same action, used by the on-page form
+GET /wiki?wiki_url=:title  same action, the target of the on-page form
 GET /wiki/:title.json      {original_paragraphs, translated_paragraphs, original_content, translated_content, error_message}
 GET /up                    liveness probe: 200 "ok", no database, no network
 ```
 
+Non-string, empty, malformed and oversized bodies all come back as a 422 with a
+user-facing message. The exception detail goes to the log and never into the response —
+`Api::BaseController` renders one generic envelope for anything that escapes. The HTML
+side installs no blanket `rescue_from` at all and lets Rails render the right thing for
+the format. Real request and response pairs for every case are in
+[`docs/output/api-transcript.txt`](docs/output/api-transcript.txt), and
 `ftf_assessment.postman_collection.json` holds the same requests.
 
-## Project structure
+## Environment
 
-```
-app/
-  lib/                       pure domain — no Rails, no I/O, no database
-    ciphers/rot13.rb         the ROT13 transform itself
-    ciphers/registry.rb      name -> cipher lookup; the extension seam
-    pig_latin/translator.rb  the Pig Latin rules
-  clients/
-    wikipedia_client.rb      the only code that opens a socket
-  services/
-    application_service.rb   .call convenience base
-    service_result.rb        success/failure + status, returned by every service
-    encryptions/             validate -> encrypt -> persist
-    translations/            fetch -> translate -> cache
-  controllers/
-    api/base_controller.rb   JSON error envelope, nothing leaked
-    api/v1/                  versioned API
-    wikis_controller.rb      HTML + JSON for the translator
-  models/string_encryption.rb
-  views/wikis/translate.html.erb
-lib/
-  arithmetic_operations.rb   multiply and power from addition alone
-  tasks/benchmark.rake       the benchmark quoted in this README
-spec/                        mirrors app/ one-for-one, plus spec/requests
-docs/
-  capture_api.sh             regenerates everything in docs/output
-  output/                    real transcripts and timings
-  screenshots/
-```
+Everything the app reads. All optional in development. `SECRET_KEY_BASE` and a database
+URL or password are required in production.
 
-## Design notes
+| Name | Default | Purpose |
+| --- | --- | --- |
+| `DATABASE_URL` | from `config/database.yml` | PostgreSQL connection string. Overrides the YAML when set. |
+| `FTF_ASSESSMENT_DATABASE_PASSWORD` | none | Password for the `ftf_assessment` production role. |
+| `SECRET_KEY_BASE` | none | Rails signing key. `docker compose` refuses to start without it. |
+| `RAILS_MAX_THREADS` | `5` | Puma threads and the ActiveRecord pool size. |
+| `RAILS_SERVE_STATIC_FILES` | unset | Serve `public/` from Rails. Set in the container image. |
+| `RAILS_LOG_TO_STDOUT` | unset | Log to stdout instead of `log/production.log`. |
+| `RAILS_FORCE_SSL` | unset | Redirect to HTTPS and set HSTS in production. |
+| `WIKIPEDIA_BASE_URL` | `https://en.wikipedia.org/wiki/` | Article source. Point it at a mirror to work offline. |
+| `WIKIPEDIA_OPEN_TIMEOUT` | `3` | Seconds to wait for the TCP/TLS handshake. |
+| `WIKIPEDIA_READ_TIMEOUT` | `5` | Seconds to wait for the article body. |
+| `WIKIPEDIA_CACHE_TTL_SECONDS` | `3600` | How long a fetched and translated article is reused. |
+| `MAX_ENCRYPTION_BYTES` | `1048576` | Ceiling on the ROT13 request body read. |
+| `CACHE_SIZE_BYTES` | `67108864` | Production in-process cache size. |
+| `POSTGRES_PASSWORD` | `ftf_assessment_dev` | Compose only: password for the bundled `db` service. |
 
-**Why four layers for an app this small.** The original code put the URL building,
-the HTTP call, the HTML parsing, the translation rules and the result shaping inside
-one service object, and the exception policy inside `ApplicationController`. That is
-fine until you want to test the Pig Latin rules, at which point you either stub
-`Net::HTTP` or hit Wikipedia for real — the original suite did the latter, which is
-why it took 7.2s and needed a network. Splitting the rules into `app/lib` made them
-testable in microseconds and made the punctuation bugs below findable.
+## Judgement calls
 
-**`ServiceResult` instead of `[hash, {status:}]`.** Services used to return a
-two-element array that callers indexed positionally (`resp[0]`, `resp[1][:status]`).
-Success and failure were indistinguishable at the call site. `ServiceResult` is frozen,
-answers `success?`, and carries the HTTP status the controller should use.
+**Pig Latin has no canonical specification**, so the rules this implementation picks are
+spelled out at the top of `app/lib/pig_latin/translator.rb` and pinned by
+`spec/lib/pig_latin/translator_spec.rb`. A non-initial `y` counts as a vowel
+(`syllable` → `yllablesay`). Leading and trailing non-letters stay put, so `know"`
+becomes `owknay"` rather than `ow"knay`. A token with no letters at all is returned
+untouched. The original word's capitalisation shape is carried over. All four are
+defensible choices, not the only ones.
 
-**The real bottleneck was the network, not the database.** One table, one insert per
-API call, one index. Nothing reads it. The expensive path is `/wiki/:title`: an HTTPS
-round trip to Wikipedia plus a word-by-word translation of a 50 KB article, repeated
-in full on every request. Caching the *pair* — article and translation, keyed by a
-digest of the normalised title — takes a repeat request from **3.19s to 0.0067s**
-(`docs/output/cache-timing.txt`). Failures are deliberately not cached, so a transient
-Wikipedia outage does not pin an error page for an hour. The fetch now carries a 3s
-open and 5s read timeout; previously it had neither, so one slow upstream could hold a
-Puma thread for the full 60s default.
+**The extension seam is the cipher registry.** `enc_type` is a free-text column, so the
+schema was always ready for more than one cipher. `Ciphers::Registry` makes that
+explicit: a new cipher is one module responding to `.encrypt` plus one `register` line,
+and neither the controller, the service, the model nor a migration changes.
+`spec/lib/ciphers/registry_spec.rb` asserts exactly that by registering an Atbash cipher
+at runtime and encrypting with it. `WikipediaClient` is the second seam — inject any
+object answering `article_paragraphs` and the translator works against a different
+source.
 
-**The second bottleneck was algorithmic.** `multiply` was repeated addition, so its
-cost was linear in the *value* of the second operand: `multiply(2, 10_000_000)` did ten
-million additions and `multiply(10_000_000, 2)` did two, for the same product.
-Shift-and-add makes it logarithmic, and exponentiation by squaring does the same for
-`power`. Measured with `bundle exec rake benchmark:arithmetic`:
+**The no-`*` constraint does not have to cost you a linear loop.** Repeated addition is
+correct but linear in the *value* of an operand, so `multiply(2, 10_000_000)` does ten
+million additions while `multiply(10_000_000, 2)` does two for the same product.
+`ArithmeticOperations` uses Russian-peasant shift-and-add and exponentiation by squaring
+instead — both logarithmic, both built from `+`, integer halving and bit tests, so the
+constraint still holds. `lib/tasks/benchmark.rake` keeps a repeated-addition baseline
+alongside the current implementation, checks the two agree on every case, and times them
+([`docs/output/arithmetic-benchmark.txt`](docs/output/arithmetic-benchmark.txt)):
 
 ```
 case                           repeated-add  shift-and-add    speedup
-----------------------------------------------------------------------
 multiply(2, 1_000_000)            0.037398s      0.000018s      2078x
 multiply(2, 10_000_000)           0.380346s      0.000011s     34577x
 multiply(123_456, 98_765)         0.003709s      0.000007s       530x
 power(2, 64)                      0.000021s      0.000016s         1x
-
-ruby 3.1.3 on arm64-darwin23
 ```
 
-**The extension seam is the cipher registry.** `enc_type` was already a free-text
-column, so the schema was always ready for more than one cipher. `Ciphers::Registry`
-makes that explicit: a new cipher is one module responding to `.encrypt` plus one
-`register` line, and neither the controller, the service, the model nor a migration
-changes. `spec/lib/ciphers/registry_spec.rb` asserts exactly that by registering an
-Atbash cipher at runtime. `WikipediaClient` is the second seam — inject any object
-responding to `article_paragraphs` and the translator works against a different source.
+## Known gaps
 
-**Error handling is format-aware.** `ApplicationController` used to
-`rescue_from StandardError` and render `{"error": "Could not create record: #{message}"}`
-for everything, including HTML page requests. Now the JSON API has its own base
-controller with a generic envelope and a logged detail, and the HTML side lets Rails
-render the right thing for the format.
-
-## Limitations
-
-- **The cache is in-process.** `:memory_store` means each Puma worker or container has
-  its own copy, so the hit rate on an N-process deploy is roughly 1/N. Point
-  `config.cache_store` at Memcached or Redis before scaling out.
-- **`string_encryptions` only grows.** One row per API call, nothing ever reads or
-  prunes it. A retention job or a partition by `created_at` is the obvious next step;
-  neither is in scope for the brief.
+- **The cache is in-process.** `:memory_store` gives each Puma worker its own copy, so
+  the hit rate on an N-process deploy is roughly 1/N. Point `config.cache_store` at
+  Memcached or Redis before scaling out.
+- **`string_encryptions` only grows.** One row per API call, and nothing reads or prunes
+  it. A retention job or a partition on `created_at` is the obvious next step.
 - **Wikipedia is scraped, not queried through its API.** `Nokogiri.css('p')` picks up
-  every paragraph on the page, including edit notices and navigation prose. The action
-  API would give cleaner extracts; scraping is what the brief describes.
-- **`multiply` and `power` are integer-only** and raise `TypeError` on anything else,
+  every paragraph on the page, edit notices and navigation prose included. The action API
+  would give cleaner extracts, but scraping is what the exercise describes.
+- **`multiply` and `power` are integer-only.** Both raise `TypeError` on anything else,
   and `power` raises `ArgumentError` on a negative exponent rather than inventing a
-  fractional answer. They are a library, not an endpoint; nothing in the web app calls
-  them.
-- **Pig Latin has no single correct specification.** This implementation treats a
-  non-initial `y` as a vowel (`syllable` → `yllablesay`) and preserves leading and
-  trailing punctuation in place. Both are defensible choices, not the only ones.
-- **`config/credentials.yml.enc` is committed without its `master.key`**, which is
-  correctly gitignored. Nothing in the app reads the credentials; production uses
-  `SECRET_KEY_BASE` instead. A fresh clone cannot run `rails credentials:edit`.
-- **No authentication, no rate limiting.** Both endpoints are open. The ROT13 endpoint
+  fractional answer. They are a library — nothing in the web app calls them.
+- **No authentication and no rate limiting.** Both endpoints are open. The ROT13 endpoint
   caps the body it reads at 1 MB, but nothing caps the request *rate*.
+- **`config/credentials.yml.enc` is committed without its `master.key`**, which is
+  correctly gitignored and absent. Nothing in the app reads the credentials and
+  production uses `SECRET_KEY_BASE`, but a fresh clone cannot run `rails credentials:edit`.
+- **The Docker image has not been built or booted** from this checkout. The `Dockerfile`
+  and `docker-compose.yml` are committed and reviewable, but unexercised.
